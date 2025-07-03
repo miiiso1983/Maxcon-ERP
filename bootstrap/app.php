@@ -28,5 +28,22 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // Handle highlight_file() errors for shared hosting
+        $exceptions->render(function (Throwable $e, $request) {
+            if (str_contains($e->getMessage(), 'highlight_file') ||
+                str_contains($e->getMessage(), 'Call to undefined function')) {
+
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'error' => 'Server configuration error',
+                        'message' => 'Please contact system administrator'
+                    ], 500);
+                }
+
+                return response()->view('errors.500', [
+                    'message' => 'Server configuration issue detected. Please contact your hosting provider to enable required PHP functions.',
+                    'exception' => config('app.debug') ? $e : null
+                ], 500);
+            }
+        });
     })->create();
