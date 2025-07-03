@@ -1,0 +1,377 @@
+/* Import Styles for MAXCON ERP */
+
+/* File Upload Styles */
+.file-upload-area {
+    border: 2px dashed #dee2e6;
+    border-radius: 0.375rem;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+}
+
+.file-upload-area:hover {
+    border-color: #0d6efd;
+    background-color: #e7f1ff;
+}
+
+.file-upload-area.dragover {
+    border-color: #0d6efd;
+    background-color: #e7f1ff;
+    transform: scale(1.02);
+}
+
+.file-upload-icon {
+    font-size: 3rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+.file-upload-text {
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.file-upload-subtext {
+    font-size: 0.875rem;
+    color: #adb5bd;
+}
+
+/* File Info Display */
+.file-info {
+    background-color: #d1edff;
+    border: 1px solid #b6d7ff;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    margin-top: 1rem;
+}
+
+.file-info.success {
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+    color: #0f5132;
+}
+
+.file-info.error {
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+    color: #842029;
+}
+
+/* Progress Styles */
+.import-progress {
+    background-color: #e9ecef;
+    border-radius: 0.5rem;
+    height: 1rem;
+    overflow: hidden;
+}
+
+.import-progress-bar {
+    background: linear-gradient(45deg, #0d6efd, #6610f2);
+    height: 100%;
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+.import-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.15) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 1rem 1rem;
+    animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+    0% {
+        background-position: 1rem 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+/* Import Status Cards */
+.import-status-card {
+    border-left: 4px solid #0d6efd;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.import-status-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.import-status-card.success {
+    border-left-color: #198754;
+}
+
+.import-status-card.warning {
+    border-left-color: #ffc107;
+}
+
+.import-status-card.error {
+    border-left-color: #dc3545;
+}
+
+/* Sample Data Table */
+.sample-data-table {
+    font-size: 0.8rem;
+}
+
+.sample-data-table th {
+    background-color: #e9ecef;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sample-data-table td {
+    border-color: #dee2e6;
+}
+
+/* Import History */
+.import-history-item {
+    padding: 0.75rem;
+    border-bottom: 1px solid #dee2e6;
+    transition: background-color 0.2s ease;
+}
+
+.import-history-item:hover {
+    background-color: #f8f9fa;
+}
+
+.import-history-item:last-child {
+    border-bottom: none;
+}
+
+.import-history-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Validation Messages */
+.validation-message {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.validation-message.success {
+    background-color: #d1e7dd;
+    border: 1px solid #badbcc;
+    color: #0f5132;
+}
+
+.validation-message.warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffecb5;
+    color: #664d03;
+}
+
+.validation-message.error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    color: #842029;
+}
+
+/* Import Options */
+.import-options {
+    background-color: #f8f9fa;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.import-option-group {
+    margin-bottom: 1rem;
+}
+
+.import-option-group:last-child {
+    margin-bottom: 0;
+}
+
+.import-option-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+/* Drag and Drop Styles */
+.drag-drop-zone {
+    position: relative;
+    overflow: hidden;
+}
+
+.drag-drop-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(13, 110, 253, 0.1);
+    border: 2px dashed #0d6efd;
+    border-radius: 0.375rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.drag-drop-overlay.active {
+    display: flex;
+}
+
+.drag-drop-text {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #0d6efd;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .file-upload-area {
+        padding: 1rem;
+    }
+    
+    .file-upload-icon {
+        font-size: 2rem;
+    }
+    
+    .sample-data-table {
+        font-size: 0.7rem;
+    }
+    
+    .import-options {
+        padding: 0.75rem;
+    }
+}
+
+/* Animation for Success States */
+@keyframes checkmark {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.success-checkmark {
+    animation: checkmark 0.5s ease-in-out;
+}
+
+/* Loading Spinner */
+.import-spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #0d6efd;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Import Results */
+.import-results {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.import-results-header {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.import-results-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.import-stat {
+    text-align: center;
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+}
+
+.import-stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.import-stat-label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Error List */
+.import-errors {
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+}
+
+.import-error-item {
+    padding: 0.25rem 0;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 0.875rem;
+}
+
+.import-error-item:last-child {
+    border-bottom: none;
+}
+
+/* RTL Support */
+[dir="rtl"] .file-upload-area {
+    text-align: center;
+}
+
+[dir="rtl"] .import-status-card {
+    border-left: none;
+    border-right: 4px solid #0d6efd;
+}
+
+[dir="rtl"] .import-status-card.success {
+    border-right-color: #198754;
+}
+
+[dir="rtl"] .import-status-card.warning {
+    border-right-color: #ffc107;
+}
+
+[dir="rtl"] .import-status-card.error {
+    border-right-color: #dc3545;
+}

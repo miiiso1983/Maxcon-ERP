@@ -1,0 +1,6 @@
+"name (الاسم الكامل)","phone (رقم الهاتف)","email (البريد الإلكتروني)","address (العنوان)","city (المدينة)","district (المنطقة)","customer_type (نوع العميل)","credit_limit (حد الائتمان)","payment_terms (شروط الدفع)","tax_number (رقم الضريبة)","license_number (رقم الترخيص)","notes (ملاحظات)"
+"Ahmed Al-Rashid","+964 770 123 4567","ahmed@email.com","Baghdad, Al-Karrada District, Street 14, Building 25","baghdad","Al-Karrada","individual","0","cash","","","Regular customer, prefers morning deliveries"
+"Fatima Hassan","+964 771 234 5678","fatima@email.com","Basra, Al-Ashar District, Medical Street 5","basra","Al-Ashar","pharmacy","500000","net_30","TAX123456","LIC789012","Pharmacy owner, bulk orders discount eligible"
+"Omar Khalil","+964 772 345 6789","omar@email.com","Erbil, Downtown, Hospital Complex","erbil","Downtown","hospital","1000000","net_15","TAX654321","LIC345678","Hospital procurement manager, urgent orders"
+"Layla Ahmed","+964 773 456 7890","layla@email.com","Najaf, Old City, Medical Center Area","najaf","Old City","clinic","250000","net_7","TAX789123","LIC456789","Clinic director, monthly bulk orders"
+"Hassan Ali","+964 774 567 8901","hassan@email.com","Karbala, New District, Commercial Street","karbala","New District","distributor","2000000","net_60","TAX456789","LIC123456","Medical distributor, wholesale prices"

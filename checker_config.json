@@ -1,0 +1,125 @@
+{
+  "base_url": "http://localhost:8000",
+  "output_dir": "./reports",
+  "timeout": 15,
+  "delay_between_requests": 0.2,
+  "max_concurrent_requests": 5,
+  
+  "essential_routes": [
+    "/",
+    "/dashboard",
+    "/inventory",
+    "/inventory/products",
+    "/inventory/products/create",
+    "/inventory/products/import",
+    "/inventory/categories",
+    "/inventory/warehouses",
+    "/sales",
+    "/sales/create",
+    "/sales/pos",
+    "/customers",
+    "/customers/create",
+    "/customers/import",
+    "/suppliers",
+    "/suppliers/import",
+    "/financial",
+    "/financial/collections",
+    "/financial/accounting",
+    "/reports",
+    "/reports/sales",
+    "/reports/customers",
+    "/ai",
+    "/ai/customer-analytics",
+    "/ai/demand-forecasting",
+    "/hr",
+    "/hr/employees",
+    "/hr/attendance",
+    "/medical-reps",
+    "/medical-reps/reps",
+    "/medical-reps/visits",
+    "/medical-reps/performance",
+    "/compliance",
+    "/compliance/items",
+    "/compliance/inspections",
+    "/testing",
+    "/testing/modules",
+    "/testing/results",
+    "/analytics",
+    "/analytics/sales",
+    "/analytics/customers",
+    "/analytics/products",
+    "/analytics/profitability",
+    "/performance",
+    "/performance/monitoring",
+    "/performance/cache",
+    "/performance/redis",
+    "/whatsapp",
+    "/whatsapp/messages",
+    "/whatsapp/messages/create",
+    "/whatsapp/templates",
+    "/whatsapp/settings",
+    "/purchase-orders",
+    "/purchase-orders/create"
+  ],
+  
+  "dynamic_routes": [
+    "/customers/1",
+    "/products/1",
+    "/sales/1",
+    "/medical-reps/reps/1",
+    "/whatsapp/messages/1",
+    "/whatsapp/templates/1",
+    "?lang=ar",
+    "?lang=en",
+    "?lang=ku"
+  ],
+  
+  "excluded_patterns": [
+    "mailto:",
+    "tel:",
+    "javascript:",
+    "#$",
+    "\\.pdf$",
+    "\\.zip$",
+    "\\.exe$",
+    "\\.doc$",
+    "\\.docx$",
+    "\\.xls$",
+    "\\.xlsx$",
+    "/logout",
+    "/admin/",
+    "/api/internal/"
+  ],
+  
+  "expected_status_codes": [200, 301, 302, 303, 307, 308],
+  
+  "selenium_options": {
+    "headless": true,
+    "window_size": "1920,1080",
+    "page_load_timeout": 30,
+    "implicit_wait": 10
+  },
+  
+  "report_settings": {
+    "generate_html": true,
+    "generate_csv": true,
+    "generate_json": true,
+    "open_html_automatically": true,
+    "max_successful_links_in_html": 20,
+    "max_errors_in_console": 10
+  },
+  
+  "notifications": {
+    "email_on_errors": false,
+    "webhook_url": "",
+    "slack_webhook": "",
+    "discord_webhook": ""
+  },
+  
+  "performance_thresholds": {
+    "slow_response_time": 2.0,
+    "very_slow_response_time": 5.0,
+    "max_acceptable_errors": 5,
+    "min_success_rate": 90.0
+  }
+}

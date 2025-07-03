@@ -1,0 +1,837 @@
+{
+  "metadata": {
+    "timestamp": "2025-07-03T23:51:59.636486",
+    "base_url": "http://localhost:8000",
+    "checker_version": "1.0",
+    "total_checked": 55
+  },
+  "summary": {
+    "successful": 54,
+    "errors": 1,
+    "redirects": 53,
+    "success_rate": 98.18
+  },
+  "results": {
+    "successful_links": [
+      {
+        "url": "http://localhost:8000",
+        "status_code": 200,
+        "response_time": 0.08,
+        "final_url": "http://localhost:8000/",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 28708,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/sales/pos",
+        "status_code": 200,
+        "response_time": 0.028,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/hr/attendance",
+        "status_code": 200,
+        "response_time": 0.035,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/whatsapp/settings",
+        "status_code": 200,
+        "response_time": 0.027,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/medical-reps/visits",
+        "status_code": 200,
+        "response_time": 0.026,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/compliance",
+        "status_code": 200,
+        "response_time": 0.039,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/reports/sales",
+        "status_code": 200,
+        "response_time": 0.027,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/whatsapp/messages",
+        "status_code": 200,
+        "response_time": 0.023,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/financial",
+        "status_code": 200,
+        "response_time": 0.03,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/reports/customers",
+        "status_code": 200,
+        "response_time": 0.031,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/medical-reps/performance",
+        "status_code": 200,
+        "response_time": 0.026,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/compliance/inspections",
+        "status_code": 200,
+        "response_time": 0.025,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/customers/import",
+        "status_code": 200,
+        "response_time": 0.041,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/performance/monitoring",
+        "status_code": 200,
+        "response_time": 0.024,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/performance",
+        "status_code": 200,
+        "response_time": 0.019,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/tenant-dashboard",
+        "status_code": 200,
+        "response_time": 0.031,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000?lang=ku",
+        "status_code": 200,
+        "response_time": 0.014,
+        "final_url": "http://localhost:8000/?lang=ku",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 28791,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/customers/create",
+        "status_code": 200,
+        "response_time": 0.074,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7304,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/financial/collections",
+        "status_code": 200,
+        "response_time": 0.025,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7304,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/sales",
+        "status_code": 200,
+        "response_time": 0.022,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7304,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/ai/demand-forecasting",
+        "status_code": 200,
+        "response_time": 0.029,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7304,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/financial/accounting",
+        "status_code": 200,
+        "response_time": 0.022,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7304,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/analytics",
+        "status_code": 200,
+        "response_time": 0.022,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7304,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/analytics/sales",
+        "status_code": 200,
+        "response_time": 0.028,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7304,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/inventory/products/create",
+        "status_code": 200,
+        "response_time": 0.041,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7304,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/purchase-orders",
+        "status_code": 200,
+        "response_time": 0.023,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7304,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/reports",
+        "status_code": 200,
+        "response_time": 0.033,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7304,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000?lang=en",
+        "status_code": 200,
+        "response_time": 0.014,
+        "final_url": "http://localhost:8000/?lang=en",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 28708,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/hr",
+        "status_code": 200,
+        "response_time": 0.022,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/hr/employees",
+        "status_code": 200,
+        "response_time": 0.026,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/performance/cache",
+        "status_code": 200,
+        "response_time": 0.035,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/reports/dashboard",
+        "status_code": 200,
+        "response_time": 0.025,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/",
+        "status_code": 200,
+        "response_time": 0.017,
+        "final_url": "http://localhost:8000/",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 28708,
+        "error": null,
+        "redirected": false
+      },
+      {
+        "url": "http://localhost:8000/testing",
+        "status_code": 200,
+        "response_time": 0.033,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/ai/customer-analytics",
+        "status_code": 200,
+        "response_time": 0.024,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/customers",
+        "status_code": 200,
+        "response_time": 0.026,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/compliance/items",
+        "status_code": 200,
+        "response_time": 0.034,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/sales/create",
+        "status_code": 200,
+        "response_time": 0.029,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/whatsapp",
+        "status_code": 200,
+        "response_time": 0.024,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/testing/modules",
+        "status_code": 200,
+        "response_time": 0.027,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/testing/results",
+        "status_code": 200,
+        "response_time": 0.029,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7301,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000?lang=ar",
+        "status_code": 200,
+        "response_time": 0.018,
+        "final_url": "http://localhost:8000/?lang=ar",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 28796,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/suppliers/import",
+        "status_code": 200,
+        "response_time": 0.036,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7308,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/inventory/categories",
+        "status_code": 200,
+        "response_time": 0.025,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7308,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/dashboard",
+        "status_code": 200,
+        "response_time": 0.027,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7308,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/whatsapp/templates",
+        "status_code": 200,
+        "response_time": 0.036,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7308,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/medical-reps",
+        "status_code": 200,
+        "response_time": 0.025,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7308,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/inventory/products",
+        "status_code": 200,
+        "response_time": 0.026,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7308,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/analytics/customers",
+        "status_code": 200,
+        "response_time": 0.033,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7308,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/inventory/warehouses",
+        "status_code": 200,
+        "response_time": 0.024,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7308,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/ai",
+        "status_code": 200,
+        "response_time": 0.024,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7308,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/medical-reps/reps",
+        "status_code": 200,
+        "response_time": 0.027,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7308,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/suppliers",
+        "status_code": 200,
+        "response_time": 0.032,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7308,
+        "error": null,
+        "redirected": true
+      },
+      {
+        "url": "http://localhost:8000/inventory",
+        "status_code": 200,
+        "response_time": 0.026,
+        "final_url": "http://localhost:8000/login",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 7308,
+        "error": null,
+        "redirected": true
+      }
+    ],
+    "errors": [
+      {
+        "url": "http://localhost:8000/logout",
+        "status_code": 405,
+        "response_time": 0.126,
+        "final_url": "http://localhost:8000/logout",
+        "content_type": "text/html; charset=UTF-8",
+        "content_length": 257740,
+        "error": null,
+        "redirected": false
+      }
+    ],
+    "redirects": [
+      {
+        "original_url": "http://localhost:8000",
+        "final_url": "http://localhost:8000/",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/sales/pos",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/hr/attendance",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/whatsapp/settings",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/medical-reps/visits",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/compliance",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/reports/sales",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/whatsapp/messages",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/financial",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/reports/customers",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/medical-reps/performance",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/compliance/inspections",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/customers/import",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/performance/monitoring",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/performance",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/tenant-dashboard",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000?lang=ku",
+        "final_url": "http://localhost:8000/?lang=ku",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/customers/create",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/financial/collections",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/sales",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/ai/demand-forecasting",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/financial/accounting",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/analytics",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/analytics/sales",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/inventory/products/create",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/purchase-orders",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/reports",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000?lang=en",
+        "final_url": "http://localhost:8000/?lang=en",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/hr",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/hr/employees",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/performance/cache",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/reports/dashboard",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/testing",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/ai/customer-analytics",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/customers",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/compliance/items",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/sales/create",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/whatsapp",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/testing/modules",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/testing/results",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000?lang=ar",
+        "final_url": "http://localhost:8000/?lang=ar",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/suppliers/import",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/inventory/categories",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/dashboard",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/whatsapp/templates",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/medical-reps",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/inventory/products",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/analytics/customers",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/inventory/warehouses",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/ai",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/medical-reps/reps",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/suppliers",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      },
+      {
+        "original_url": "http://localhost:8000/inventory",
+        "final_url": "http://localhost:8000/login",
+        "status_code": 200
+      }
+    ]
+  }
+}
