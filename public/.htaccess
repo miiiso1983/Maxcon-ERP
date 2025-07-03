@@ -41,6 +41,13 @@
     php_value post_max_size 64M
     php_flag display_errors Off
     php_flag log_errors On
+    php_value error_log /tmp/php_errors.log
+</IfModule>
+
+# Alternative PHP Configuration (if mod_php doesn't work)
+<IfModule mod_fcgid.c>
+    FcgidInitialEnv PHP_FCGI_MAX_REQUESTS 1000
+    FcgidMaxRequestLen 1073741824
 </IfModule>
 
 # Disable access to sensitive files
