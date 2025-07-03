@@ -1,0 +1,28 @@
+# Simple .htaccess for Laravel - Emergency Backup
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Handle Laravel routes
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Basic PHP settings
+<IfModule mod_php.c>
+    php_flag display_errors Off
+    php_flag log_errors On
+    php_value memory_limit 256M
+    php_value max_execution_time 120
+</IfModule>
+
+# Protect sensitive files
+<Files ".env">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "composer.json">
+    Order allow,deny
+    Deny from all
+</Files>
