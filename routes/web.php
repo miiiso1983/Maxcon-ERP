@@ -10,6 +10,7 @@ use App\Modules\Inventory\Controllers\ProductController;
 use App\Modules\Sales\Controllers\SalesController;
 use App\Modules\Sales\Controllers\POSController;
 use App\Modules\Customer\Controllers\CustomerController;
+use App\Modules\Supplier\Controllers\SupplierController;
 use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
@@ -283,6 +284,27 @@ Route::prefix('customers')->name('customers.')->group(function () {
     Route::get('/{customer}/loyalty-history', [CustomerController::class, 'loyaltyHistory'])->name('loyalty-history');
     Route::post('/{customer}/adjust-loyalty', [CustomerController::class, 'adjustLoyaltyPoints'])->name('adjust-loyalty');
     Route::post('/bulk-action', [CustomerController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Suppliers routes for central domain
+Route::prefix('suppliers')->name('suppliers.')->group(function () {
+    Route::get('/', [SupplierController::class, 'index'])->name('index');
+    Route::get('/create', [SupplierController::class, 'create'])->name('create');
+    Route::post('/', [SupplierController::class, 'store'])->name('store');
+    Route::get('/{supplier}', [SupplierController::class, 'show'])->name('show');
+    Route::get('/{supplier}/edit', [SupplierController::class, 'edit'])->name('edit');
+    Route::put('/{supplier}', [SupplierController::class, 'update'])->name('update');
+    Route::delete('/{supplier}', [SupplierController::class, 'destroy'])->name('destroy');
+    Route::post('/{supplier}/evaluate', [SupplierController::class, 'evaluate'])->name('evaluate');
+    Route::get('/{supplier}/performance', [SupplierController::class, 'performance'])->name('performance');
+    Route::get('/{supplier}/products', [SupplierController::class, 'products'])->name('products');
+    Route::post('/{supplier}/add-product', [SupplierController::class, 'addProduct'])->name('add-product');
+    Route::delete('/{supplier}/remove-product/{product}', [SupplierController::class, 'removeProduct'])->name('remove-product');
+    Route::post('/bulk-action', [SupplierController::class, 'bulkAction'])->name('bulk-action');
+    Route::get('/import', [SupplierController::class, 'showImport'])->name('import');
+    Route::post('/import', [SupplierController::class, 'import'])->name('import.process');
+    Route::get('/export', [SupplierController::class, 'export'])->name('export');
+    Route::get('/template', [SupplierController::class, 'downloadTemplate'])->name('template');
 });
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
