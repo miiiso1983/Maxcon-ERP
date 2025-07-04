@@ -30,6 +30,21 @@ Route::get('/login', function () {
     return view('tenant.auth.login');
 })->middleware('guest')->name('login');
 
+// Ensure login POST route works (backup to auth.php)
+Route::post('/login', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'store'])
+    ->middleware('guest');
+
+// Dashboard route for authenticated users
+Route::get('/dashboard', function () {
+    // If user is super admin, redirect to master admin dashboard
+    if (auth()->check() && auth()->user()->is_super_admin) {
+        return redirect()->route('central.dashboard');
+    }
+
+    // For regular users, show tenant dashboard
+    return view('tenant.dashboard');
+})->middleware('auth')->name('dashboard');
+
 // Master Admin Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('/master-admin/login', [\App\Http\Controllers\Central\AuthController::class, 'showLoginForm'])->name('central.login');
