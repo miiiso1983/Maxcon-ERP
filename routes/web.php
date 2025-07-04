@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Central\DashboardController;
 use App\Http\Controllers\Central\TenantController;
 use App\Modules\Inventory\Controllers\InventoryController;
+use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,6 +134,22 @@ Route::get('/test-suppliers', [\App\Modules\Supplier\Controllers\SupplierControl
 Route::get('/test-collections', [\App\Modules\Financial\Controllers\CollectionController::class, 'index'])->name('test.collections');
 Route::get('/test-accounting', [\App\Modules\Financial\Controllers\AccountingController::class, 'dashboard'])->name('test.accounting');
 Route::get('/test-reports', [\App\Modules\Reports\Controllers\ReportsController::class, 'dashboard'])->name('test.reports');
+
+// Reports routes for central domain
+Route::prefix('reports')->name('reports.')->group(function () {
+    Route::get('/', [\App\Modules\Reports\Controllers\ReportsController::class, 'index'])->name('index');
+    Route::get('/dashboard', [\App\Modules\Reports\Controllers\ReportsController::class, 'dashboard'])->name('dashboard');
+    Route::get('/create', [\App\Modules\Reports\Controllers\ReportsController::class, 'create'])->name('create');
+    Route::post('/', [\App\Modules\Reports\Controllers\ReportsController::class, 'store'])->name('store');
+
+    // Specific Reports
+    Route::get('/sales', [\App\Modules\Reports\Controllers\ReportsController::class, 'salesReport'])->name('sales');
+    Route::get('/inventory', [\App\Modules\Reports\Controllers\ReportsController::class, 'inventoryReport'])->name('inventory');
+    Route::get('/financial', [\App\Modules\Reports\Controllers\ReportsController::class, 'financialReport'])->name('financial');
+    Route::get('/customers', [\App\Modules\Reports\Controllers\ReportsController::class, 'customersReport'])->name('customers');
+    Route::get('/suppliers', [\App\Modules\Reports\Controllers\ReportsController::class, 'suppliersReport'])->name('suppliers');
+    Route::get('/analytics', [\App\Modules\Reports\Controllers\AnalyticsController::class, 'index'])->name('analytics');
+});
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
 Route::get('/test-medical-reps', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'dashboard'])->name('test.medical-reps');
