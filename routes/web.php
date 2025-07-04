@@ -19,6 +19,7 @@ use App\Modules\AI\Controllers\AIController;
 use App\Modules\HR\Controllers\HRController;
 use App\Modules\Compliance\Controllers\ComplianceController;
 use App\Modules\WhatsApp\Controllers\WhatsAppController;
+use App\Modules\Performance\Controllers\PerformanceController;
 use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
@@ -509,6 +510,34 @@ Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
 
 // WhatsApp Webhook (outside auth middleware for external access)
 Route::post('/webhook/whatsapp', [WhatsAppController::class, 'webhook'])->name('whatsapp.webhook');
+
+// Performance Optimization routes for central domain
+Route::prefix('performance')->name('performance.')->group(function () {
+    Route::get('/', [PerformanceController::class, 'dashboard'])->name('dashboard');
+
+    // Cache Management
+    Route::get('/cache', [PerformanceController::class, 'cacheManagement'])->name('cache');
+    Route::post('/cache/clear', [PerformanceController::class, 'clearCache'])->name('cache.clear');
+    Route::post('/cache/warmup', [PerformanceController::class, 'warmUpCache'])->name('cache.warmup');
+
+    // Database Optimization
+    Route::get('/database', [PerformanceController::class, 'databaseOptimization'])->name('database');
+    Route::post('/database/optimize', [PerformanceController::class, 'optimizeDatabase'])->name('database.optimize');
+
+    // Performance Monitoring
+    Route::get('/monitoring', [PerformanceController::class, 'performanceMonitoring'])->name('monitoring');
+    Route::get('/metrics', [PerformanceController::class, 'getMetrics'])->name('metrics');
+    Route::get('/alerts', [PerformanceController::class, 'getAlerts'])->name('alerts');
+
+    // Reports and Optimization
+    Route::post('/report', [PerformanceController::class, 'generateReport'])->name('report');
+    Route::post('/optimize', [PerformanceController::class, 'optimizePerformance'])->name('optimize');
+
+    // Redis Monitoring
+    Route::get('/redis', [PerformanceController::class, 'redisMonitoring'])->name('redis.monitoring');
+    Route::post('/redis/clear', [PerformanceController::class, 'clearRedisCache'])->name('redis.clear');
+    Route::post('/redis/warmup', [PerformanceController::class, 'warmUpRedisCache'])->name('redis.warmup');
+});
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
 Route::get('/test-medical-reps', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'dashboard'])->name('test.medical-reps');
