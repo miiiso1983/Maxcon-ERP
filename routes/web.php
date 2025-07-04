@@ -20,6 +20,7 @@ use App\Modules\HR\Controllers\HRController;
 use App\Modules\Compliance\Controllers\ComplianceController;
 use App\Modules\WhatsApp\Controllers\WhatsAppController;
 use App\Modules\Performance\Controllers\PerformanceController;
+use App\Modules\Testing\Controllers\TestingController;
 use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
@@ -537,6 +538,25 @@ Route::prefix('performance')->name('performance.')->group(function () {
     Route::get('/redis', [PerformanceController::class, 'redisMonitoring'])->name('redis.monitoring');
     Route::post('/redis/clear', [PerformanceController::class, 'clearRedisCache'])->name('redis.clear');
     Route::post('/redis/warmup', [PerformanceController::class, 'warmUpRedisCache'])->name('redis.warmup');
+});
+
+// Testing & Quality Assurance routes for central domain
+Route::prefix('testing')->name('testing.')->group(function () {
+    Route::get('/', [TestingController::class, 'dashboard'])->name('dashboard');
+
+    // Test Execution
+    Route::post('/run', [TestingController::class, 'runTests'])->name('run');
+    Route::post('/coverage', [TestingController::class, 'generateCoverage'])->name('coverage');
+    Route::post('/quality', [TestingController::class, 'runQualityChecks'])->name('quality');
+
+    // Test Results and Reports
+    Route::get('/results', [TestingController::class, 'getTestResults'])->name('results');
+    Route::get('/coverage-report', [TestingController::class, 'getCoverageReport'])->name('coverage.report');
+    Route::get('/quality-report', [TestingController::class, 'getQualityReport'])->name('quality.report');
+
+    // Module Testing
+    Route::get('/modules', [TestingController::class, 'testModules'])->name('modules');
+    Route::post('/modules/{module}', [TestingController::class, 'runModuleTest'])->name('modules.test');
 });
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
