@@ -71,10 +71,7 @@ Route::middleware([
 
     // Authentication routes for tenants
     Route::middleware('guest')->group(function () {
-        Route::get('/login', function () {
-            return view('tenant.auth.login');
-        })->name('login'); // Changed from tenant.login to login for Laravel auth
-
+        // Login route moved to web.php for priority
         Route::get('/tenant-login', function () {
             return view('tenant.auth.login');
         })->name('tenant.login');

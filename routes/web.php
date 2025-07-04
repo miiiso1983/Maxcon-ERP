@@ -25,6 +25,11 @@ Route::get('/', function () {
     return view('central.welcome');
 })->name('central.home');
 
+// Force tenant login route to take priority over default Laravel auth
+Route::get('/login', function () {
+    return view('tenant.auth.login');
+})->middleware('guest')->name('login');
+
 // Master Admin Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('/master-admin/login', [\App\Http\Controllers\Central\AuthController::class, 'showLoginForm'])->name('central.login');
