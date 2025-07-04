@@ -297,9 +297,18 @@ class AnalyticsController extends Controller
 
     private function getAverageCustomerValue(): float
     {
-        return Customer::whereHas('sales')
-            ->withSum('sales', 'total_amount')
-            ->avg('sales_sum_total_amount') ?? 0;
+        // Alternative approach using subquery to avoid withSum issues
+        $customerValues = Customer::whereHas('sales')
+            ->with('sales')
+            ->get()
+            ->map(function ($customer) {
+                return $customer->sales->sum('total_amount');
+            })
+            ->filter(function ($value) {
+                return $value > 0;
+            });
+
+        return $customerValues->count() > 0 ? $customerValues->avg() : 0;
     }
 
     private function getTopSellingProduct(): ?array
@@ -427,7 +436,9 @@ class AnalyticsController extends Controller
             }])
             ->get()
             ->groupBy('sales_count')
-            ->map->count()
+            ->map(function ($customers) {
+                return $customers->count();
+            })
             ->toArray();
     }
 
