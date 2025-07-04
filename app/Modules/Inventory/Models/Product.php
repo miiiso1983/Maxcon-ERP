@@ -108,6 +108,16 @@ class Product extends Model
         return $this->hasMany(ProductVariant::class);
     }
 
+    public function saleItems()
+    {
+        return $this->hasMany(\App\Modules\Sales\Models\SaleItem::class);
+    }
+
+    public function purchaseOrderItems()
+    {
+        return $this->hasMany(\App\Modules\Purchase\Models\PurchaseOrderItem::class);
+    }
+
     // Scopes
     public function scopeActive($query)
     {
