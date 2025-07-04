@@ -364,6 +364,23 @@ Route::prefix('financial')->name('financial.')->group(function () {
         Route::get('/journal-entries', [AccountingController::class, 'journalEntries'])->name('journal-entries');
     });
 });
+
+// Direct collections routes for central domain (for backward compatibility)
+Route::prefix('collections')->name('collections.')->group(function () {
+    Route::get('/', [CollectionController::class, 'index'])->name('index');
+    Route::get('/dashboard', [CollectionController::class, 'dashboard'])->name('dashboard');
+    Route::get('/create', [CollectionController::class, 'create'])->name('create');
+    Route::post('/', [CollectionController::class, 'store'])->name('store');
+    Route::get('/{collection}', [CollectionController::class, 'show'])->name('show');
+    Route::get('/{collection}/edit', [CollectionController::class, 'edit'])->name('edit');
+    Route::put('/{collection}', [CollectionController::class, 'update'])->name('update');
+    Route::post('/{collection}/add-payment', [CollectionController::class, 'addPayment'])->name('add-payment');
+    Route::post('/{collection}/add-activity', [CollectionController::class, 'addActivity'])->name('add-activity');
+    Route::post('/{collection}/mark-contacted', [CollectionController::class, 'markAsContacted'])->name('mark-contacted');
+    Route::post('/{collection}/apply-discount', [CollectionController::class, 'applyDiscount'])->name('apply-discount');
+    Route::post('/{collection}/write-off', [CollectionController::class, 'writeOff'])->name('write-off');
+    Route::post('/bulk-action', [CollectionController::class, 'bulkAction'])->name('bulk-action');
+});
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
 Route::get('/test-medical-reps', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'dashboard'])->name('test.medical-reps');
