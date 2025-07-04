@@ -18,6 +18,7 @@ use App\Modules\Financial\Controllers\AccountingController;
 use App\Modules\AI\Controllers\AIController;
 use App\Modules\HR\Controllers\HRController;
 use App\Modules\Compliance\Controllers\ComplianceController;
+use App\Modules\WhatsApp\Controllers\WhatsAppController;
 use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
@@ -474,6 +475,40 @@ Route::prefix('compliance')->name('compliance.')->group(function () {
     // Compliance Reports
     Route::get('/reports', [ComplianceController::class, 'reports'])->name('reports');
 });
+
+// WhatsApp Integration routes for central domain
+Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
+    Route::get('/', [WhatsAppController::class, 'dashboard'])->name('dashboard');
+
+    // Message Management
+    Route::prefix('messages')->name('messages.')->group(function () {
+        Route::get('/', [WhatsAppController::class, 'messages'])->name('index');
+        Route::get('/create', [WhatsAppController::class, 'createMessage'])->name('create');
+        Route::post('/', [WhatsAppController::class, 'storeMessage'])->name('store');
+        Route::get('/{message}', [WhatsAppController::class, 'showMessage'])->name('show');
+        Route::post('/{message}/resend', [WhatsAppController::class, 'resendMessage'])->name('resend');
+    });
+
+    // Template Management
+    Route::prefix('templates')->name('templates.')->group(function () {
+        Route::get('/', [WhatsAppController::class, 'templates'])->name('index');
+        Route::get('/create', [WhatsAppController::class, 'createTemplate'])->name('create');
+        Route::post('/', [WhatsAppController::class, 'storeTemplate'])->name('store');
+        Route::get('/{template}', [WhatsAppController::class, 'showTemplate'])->name('show');
+    });
+
+    // Business Actions
+    Route::post('/send-invoice/{sale}', [WhatsAppController::class, 'sendInvoice'])->name('send.invoice');
+    Route::post('/send-payment-reminder/{sale}', [WhatsAppController::class, 'sendPaymentReminder'])->name('send.payment_reminder');
+    Route::post('/bulk-send', [WhatsAppController::class, 'bulkSend'])->name('bulk.send');
+
+    // System Actions
+    Route::post('/process-queue', [WhatsAppController::class, 'processQueue'])->name('process.queue');
+    Route::get('/settings', [WhatsAppController::class, 'settings'])->name('settings');
+});
+
+// WhatsApp Webhook (outside auth middleware for external access)
+Route::post('/webhook/whatsapp', [WhatsAppController::class, 'webhook'])->name('whatsapp.webhook');
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
 Route::get('/test-medical-reps', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'dashboard'])->name('test.medical-reps');
