@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Central\DashboardController;
 use App\Http\Controllers\Central\TenantController;
 use App\Modules\Inventory\Controllers\InventoryController;
@@ -31,8 +32,28 @@ Route::get('/login', function () {
 })->middleware('guest')->name('login');
 
 // Ensure login POST route works (backup to auth.php)
-Route::post('/login', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'store'])
-    ->middleware('guest');
+Route::post('/login', function (\Illuminate\Http\Request $request) {
+    // Simple direct authentication
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        $request->session()->regenerate();
+
+        // Check if user is super admin
+        if (auth()->user()->is_super_admin ?? false) {
+            return redirect()->route('central.dashboard');
+        }
+
+        return redirect()->intended('/dashboard');
+    }
+
+    return back()->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+    ])->onlyInput('email');
+})->middleware('guest')->name('login.post');
 
 // Dashboard route for authenticated users
 Route::get('/dashboard', function () {
