@@ -51,21 +51,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Try to authenticate directly
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
-        
+
         if ($email && $password) {
-            // Use Laravel's Auth facade
-            $credentials = ['email' => $email, 'password' => $password];
-            
-            if (Auth::attempt($credentials)) {
-                echo "<span class='ok'>✅ Authentication successful!</span><br>";
-                echo "<div style='background:#d4edda;padding:15px;border-radius:5px;margin:10px 0;'>";
-                echo "<h3>🎉 Login Successful!</h3>";
-                echo "<p>Laravel authentication is working. Redirecting to dashboard...</p>";
-                echo "<script>setTimeout(function(){ window.location.href = '/dashboard'; }, 2000);</script>";
-                echo "</div>";
-            } else {
-                echo "<span class='error'>❌ Invalid credentials</span><br>";
-                echo "<p>Please check your email and password.</p>";
+            echo "<span class='ok'>✅ Attempting authentication...</span><br>";
+
+            // Try to find user directly in database
+            try {
+                $user = \App\Models\User::where('email', $email)->first();
+
+                if ($user && \Illuminate\Support\Facades\Hash::check($password, $user->password)) {
+                    echo "<span class='ok'>✅ Authentication successful!</span><br>";
+                    echo "<div style='background:#d4edda;padding:15px;border-radius:5px;margin:10px 0;'>";
+                    echo "<h3>🎉 Login Successful!</h3>";
+                    echo "<p>User found and password verified. Laravel authentication is working!</p>";
+                    echo "<p><strong>User:</strong> " . htmlspecialchars($user->name) . " (" . htmlspecialchars($user->email) . ")</p>";
+                    echo "<p><a href='/dashboard' style='color:#007bff;'>Go to Dashboard →</a></p>";
+                    echo "</div>";
+                } else {
+                    echo "<span class='error'>❌ Invalid credentials</span><br>";
+                    echo "<p>User not found or password incorrect.</p>";
+                }
+            } catch (Exception $e) {
+                echo "<span class='error'>❌ Authentication error: " . $e->getMessage() . "</span><br>";
             }
         }
         
@@ -111,7 +118,7 @@ try {
     
     // Check database connection
     try {
-        $pdo = DB::connection()->getPdo();
+        $pdo = \Illuminate\Support\Facades\DB::connection()->getPdo();
         echo "<span class='ok'>✅ Database connection working</span><br>";
     } catch (Exception $e) {
         echo "<span class='error'>❌ Database connection failed: " . $e->getMessage() . "</span><br>";

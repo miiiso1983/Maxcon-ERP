@@ -33,26 +33,39 @@ Route::get('/login', function () {
 
 // Ensure login POST route works (backup to auth.php)
 Route::post('/login', function (\Illuminate\Http\Request $request) {
-    // Simple direct authentication
-    $credentials = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+    try {
+        // Simple direct authentication without complex validation
+        $email = $request->input('email');
+        $password = $request->input('password');
 
-    if (Auth::attempt($credentials, $request->boolean('remember'))) {
-        $request->session()->regenerate();
-
-        // Check if user is super admin
-        if (auth()->user()->is_super_admin ?? false) {
-            return redirect()->route('central.dashboard');
+        if (!$email || !$password) {
+            return back()->withErrors(['email' => 'Email and password are required.']);
         }
 
-        return redirect()->intended('/dashboard');
-    }
+        // Find user and verify password manually to avoid session issues
+        $user = \App\Models\User::where('email', $email)->first();
 
-    return back()->withErrors([
-        'email' => 'The provided credentials do not match our records.',
-    ])->onlyInput('email');
+        if ($user && \Illuminate\Support\Facades\Hash::check($password, $user->password)) {
+            // Manual login without Auth::attempt to avoid session issues
+            Auth::login($user, $request->boolean('remember'));
+
+            // Check if user is super admin
+            if ($user->is_super_admin ?? false) {
+                return redirect('/master-admin/dashboard');
+            }
+
+            return redirect('/dashboard');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+
+    } catch (\Exception $e) {
+        // Log the error and return a generic message
+        \Illuminate\Support\Facades\Log::error('Login error: ' . $e->getMessage());
+        return back()->withErrors(['email' => 'Login failed. Please try again.']);
+    }
 })->middleware('guest')->name('login.post');
 
 // Dashboard route for authenticated users
