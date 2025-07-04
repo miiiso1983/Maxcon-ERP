@@ -11,6 +11,7 @@ use App\Modules\Sales\Controllers\SalesController;
 use App\Modules\Sales\Controllers\POSController;
 use App\Modules\Customer\Controllers\CustomerController;
 use App\Modules\Supplier\Controllers\SupplierController;
+use App\Modules\Purchase\Controllers\PurchaseOrderController;
 use App\Http\Controllers\PublicTemplateController;
 use App\Modules\Financial\Controllers\CollectionController;
 use App\Modules\Financial\Controllers\PaymentPlanController;
@@ -315,6 +316,20 @@ Route::prefix('suppliers')->name('suppliers.')->group(function () {
     Route::post('/import', [SupplierController::class, 'import'])->name('import.process');
     Route::get('/export', [SupplierController::class, 'export'])->name('export');
     Route::get('/template', [SupplierController::class, 'downloadTemplate'])->name('template');
+});
+
+// Purchase Orders routes for central domain
+Route::prefix('purchase-orders')->name('purchase-orders.')->group(function () {
+    Route::get('/', [PurchaseOrderController::class, 'index'])->name('index');
+    Route::get('/create', [PurchaseOrderController::class, 'create'])->name('create');
+    Route::post('/', [PurchaseOrderController::class, 'store'])->name('store');
+    Route::get('/{purchaseOrder}', [PurchaseOrderController::class, 'show'])->name('show');
+    Route::get('/{purchaseOrder}/edit', [PurchaseOrderController::class, 'edit'])->name('edit');
+    Route::put('/{purchaseOrder}', [PurchaseOrderController::class, 'update'])->name('update');
+    Route::delete('/{purchaseOrder}', [PurchaseOrderController::class, 'destroy'])->name('destroy');
+    Route::post('/{purchaseOrder}/approve', [PurchaseOrderController::class, 'approve'])->name('approve');
+    Route::post('/{purchaseOrder}/receive', [PurchaseOrderController::class, 'receive'])->name('receive');
+    Route::get('/{purchaseOrder}/print', [PurchaseOrderController::class, 'print'])->name('print');
 });
 
 // Public template routes for central domain (no auth required)
