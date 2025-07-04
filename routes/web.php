@@ -9,6 +9,7 @@ use App\Modules\Inventory\Controllers\InventoryController;
 use App\Modules\Inventory\Controllers\ProductController;
 use App\Modules\Sales\Controllers\SalesController;
 use App\Modules\Sales\Controllers\POSController;
+use App\Modules\Customer\Controllers\CustomerController;
 use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
@@ -262,6 +263,27 @@ Route::prefix('sales')->name('sales.')->group(function () {
 
 // Shortcut for POS
 Route::get('/pos', [POSController::class, 'index'])->name('sales.pos');
+
+// Customers routes for central domain
+Route::prefix('customers')->name('customers.')->group(function () {
+    Route::get('/', [CustomerController::class, 'index'])->name('index');
+    Route::get('/create', [CustomerController::class, 'create'])->name('create');
+    Route::post('/', [CustomerController::class, 'store'])->name('store');
+    Route::get('/import', [CustomerController::class, 'import'])->name('import');
+    Route::post('/import', [CustomerController::class, 'processImport'])->name('import.process');
+    Route::get('/export', [CustomerController::class, 'export'])->name('export');
+    Route::get('/template', [CustomerController::class, 'downloadTemplate'])->name('template');
+    Route::post('/{customer}/statement', [CustomerController::class, 'generateStatement'])->name('statement');
+    Route::get('/{customer}', [CustomerController::class, 'show'])->name('show');
+    Route::get('/{customer}/edit', [CustomerController::class, 'edit'])->name('edit');
+    Route::put('/{customer}', [CustomerController::class, 'update'])->name('update');
+    Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
+    Route::get('/{customer}/statements', [CustomerController::class, 'statements'])->name('statements');
+    Route::post('/{customer}/adjust-credit', [CustomerController::class, 'adjustCredit'])->name('adjust-credit');
+    Route::get('/{customer}/loyalty-history', [CustomerController::class, 'loyaltyHistory'])->name('loyalty-history');
+    Route::post('/{customer}/adjust-loyalty', [CustomerController::class, 'adjustLoyaltyPoints'])->name('adjust-loyalty');
+    Route::post('/bulk-action', [CustomerController::class, 'bulkAction'])->name('bulk-action');
+});
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
 Route::get('/test-medical-reps', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'dashboard'])->name('test.medical-reps');
