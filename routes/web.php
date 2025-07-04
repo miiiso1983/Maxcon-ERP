@@ -172,6 +172,15 @@ Route::prefix('reports')->name('reports.')->group(function () {
     Route::get('/analytics', [\App\Modules\Reports\Controllers\AnalyticsController::class, 'index'])->name('analytics');
 });
 
+// Analytics routes for central domain (dedicated analytics module)
+Route::prefix('analytics')->name('analytics.')->group(function () {
+    Route::get('/', [\App\Modules\Reports\Controllers\AnalyticsController::class, 'dashboard'])->name('dashboard');
+    Route::get('/sales', [\App\Modules\Reports\Controllers\AnalyticsController::class, 'salesAnalytics'])->name('sales');
+    Route::get('/customers', [\App\Modules\Reports\Controllers\AnalyticsController::class, 'customerAnalytics'])->name('customers');
+    Route::get('/products', [\App\Modules\Reports\Controllers\AnalyticsController::class, 'productAnalytics'])->name('products');
+    Route::get('/profitability', [\App\Modules\Reports\Controllers\AnalyticsController::class, 'profitabilityAnalysis'])->name('profitability');
+});
+
 // Medical Reps routes for central domain
 Route::prefix('medical-reps')->name('medical-reps.')->group(function () {
     Route::get('/', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'dashboard'])->name('dashboard');
