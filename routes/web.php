@@ -80,6 +80,11 @@ Route::get('/dashboard', function () {
     return view('tenant.dashboard');
 })->middleware('auth')->name('dashboard');
 
+// Tenant dashboard route for central domain access
+Route::get('/tenant-dashboard', function () {
+    return view('tenant.dashboard');
+})->middleware('auth')->name('tenant.dashboard');
+
 // Master Admin Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('/master-admin/login', [\App\Http\Controllers\Central\AuthController::class, 'showLoginForm'])->name('central.login');
