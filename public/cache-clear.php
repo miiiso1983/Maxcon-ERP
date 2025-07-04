@@ -26,10 +26,14 @@ if (isset($_GET['action'])) {
     echo "<h2>🔄 Clearing Caches...</h2>";
     
     try {
-        // Bootstrap Laravel
+        // Bootstrap Laravel properly
         require_once $rootPath . '/vendor/autoload.php';
         $app = require_once $rootPath . '/bootstrap/app.php';
-        
+
+        // Boot the application to set facade roots
+        $kernel = $app->make(\Illuminate\Contracts\Http\Kernel::class);
+        $app->boot();
+
         $action = $_GET['action'];
         
         switch ($action) {
@@ -99,16 +103,81 @@ if (isset($_GET['action'])) {
                     'storage/framework/views/*.php',
                     'storage/framework/sessions/*'
                 ];
-                
+
+                $deletedCount = 0;
                 foreach ($cacheFiles as $pattern) {
                     $files = glob($rootPath . '/' . $pattern);
                     foreach ($files as $file) {
                         if (is_file($file) && unlink($file)) {
+                            $deletedCount++;
                             $cleared[] = "Deleted: " . basename($file);
                         }
                     }
                 }
-                echo "<span class='ok'>✅ Cache files manually deleted</span><br>";
+                echo "<span class='ok'>✅ Cache files manually deleted ($deletedCount files)</span><br>";
+                break;
+
+            case 'force':
+                // Force clear everything when Laravel facades fail
+                echo "<h3>🔧 Force Clearing (Manual Method)</h3>";
+
+                // 1. Delete cache files
+                $cachePatterns = [
+                    'bootstrap/cache/*.php',
+                    'storage/framework/cache/data/*',
+                    'storage/framework/views/*.php',
+                    'storage/framework/sessions/*',
+                    'storage/framework/cache/*'
+                ];
+
+                $totalDeleted = 0;
+                foreach ($cachePatterns as $pattern) {
+                    $files = glob($rootPath . '/' . $pattern);
+                    foreach ($files as $file) {
+                        if (is_file($file) && unlink($file)) {
+                            $totalDeleted++;
+                        }
+                    }
+                }
+                echo "<span class='ok'>✅ Deleted $totalDeleted cache files</span><br>";
+
+                // 2. Delete config cache specifically
+                $configCache = $rootPath . '/bootstrap/cache/config.php';
+                if (file_exists($configCache) && unlink($configCache)) {
+                    echo "<span class='ok'>✅ Deleted config cache</span><br>";
+                    $cleared[] = "Config cache deleted manually";
+                }
+
+                // 3. Delete route cache
+                $routeCache = $rootPath . '/bootstrap/cache/routes-v7.php';
+                if (file_exists($routeCache) && unlink($routeCache)) {
+                    echo "<span class='ok'>✅ Deleted route cache</span><br>";
+                    $cleared[] = "Route cache deleted manually";
+                }
+
+                // 4. Clear storage cache directories
+                $storageDirs = [
+                    'storage/framework/cache/data',
+                    'storage/framework/views',
+                    'storage/framework/sessions'
+                ];
+
+                foreach ($storageDirs as $dir) {
+                    $fullPath = $rootPath . '/' . $dir;
+                    if (is_dir($fullPath)) {
+                        $files = glob($fullPath . '/*');
+                        $dirDeleted = 0;
+                        foreach ($files as $file) {
+                            if (is_file($file) && unlink($file)) {
+                                $dirDeleted++;
+                            }
+                        }
+                        echo "<span class='ok'>✅ Cleared $dir ($dirDeleted files)</span><br>";
+                    }
+                }
+
+                $cleared[] = "Force cache clear completed";
+                echo "<span class='ok'>✅ Force cache clear completed</span><br>";
                 break;
         }
         
@@ -131,6 +200,12 @@ echo "<a href='?action=route' class='button'>Clear Route Cache</a>";
 echo "<a href='?action=files' class='button'>Clear Cache Files</a>";
 echo "<br><br>";
 echo "<a href='?action=all' class='button' style='background:#28a745;font-size:16px;'>🚀 CLEAR ALL CACHES</a>";
+echo "<br><br>";
+echo "<div style='background:#fff3cd;padding:15px;border-radius:5px;margin:10px 0;'>";
+echo "<h4>⚠️ If Laravel commands fail (facade errors):</h4>";
+echo "<a href='?action=force' class='button' style='background:#dc3545;font-size:16px;'>🔧 FORCE CLEAR (Manual)</a>";
+echo "<p><small>This manually deletes cache files when Laravel facades don't work.</small></p>";
+echo "</div>";
 
 echo "</div>";
 
