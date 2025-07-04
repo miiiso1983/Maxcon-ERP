@@ -15,6 +15,7 @@ use App\Http\Controllers\PublicTemplateController;
 use App\Modules\Financial\Controllers\CollectionController;
 use App\Modules\Financial\Controllers\PaymentPlanController;
 use App\Modules\Financial\Controllers\AccountingController;
+use App\Modules\AI\Controllers\AIController;
 use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
@@ -380,6 +381,23 @@ Route::prefix('collections')->name('collections.')->group(function () {
     Route::post('/{collection}/apply-discount', [CollectionController::class, 'applyDiscount'])->name('apply-discount');
     Route::post('/{collection}/write-off', [CollectionController::class, 'writeOff'])->name('write-off');
     Route::post('/bulk-action', [CollectionController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// AI & Prediction Tools routes for central domain
+Route::prefix('ai')->name('ai.')->group(function () {
+    Route::get('/', [AIController::class, 'dashboard'])->name('dashboard');
+    Route::get('/demand-forecasting', [AIController::class, 'demandForecasting'])->name('demand-forecasting');
+    Route::post('/demand-forecasting', [AIController::class, 'createDemandForecast'])->name('create-demand-forecast');
+    Route::get('/price-optimization', [AIController::class, 'priceOptimization'])->name('price-optimization');
+    Route::post('/price-optimization', [AIController::class, 'createPriceOptimization'])->name('create-price-optimization');
+    Route::get('/customer-analytics', [AIController::class, 'customerAnalytics'])->name('customer-analytics');
+    Route::post('/customer-behavior', [AIController::class, 'analyzeCustomerBehavior'])->name('analyze-customer-behavior');
+    Route::post('/churn-prediction', [AIController::class, 'predictChurnRisk'])->name('predict-churn-risk');
+    Route::post('/batch-analysis', [AIController::class, 'batchAnalysis'])->name('batch-analysis');
+    Route::get('/predictions/{prediction}', [AIController::class, 'predictionDetails'])->name('prediction-details');
+    Route::post('/predictions/{prediction}/accuracy', [AIController::class, 'updatePredictionAccuracy'])->name('update-accuracy');
+    Route::get('/settings', [AIController::class, 'aiSettings'])->name('settings');
+    Route::post('/settings', [AIController::class, 'updateSettings'])->name('update-settings');
 });
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
