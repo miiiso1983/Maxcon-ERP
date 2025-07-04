@@ -18,39 +18,47 @@ try {
     
     // Split SQL into individual statements
     $statements = array_filter(array_map('trim', explode(';', $sql)));
-    
+
     echo "<h3>📋 Executing SQL Statements:</h3>";
-    
+    echo "<div style='background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 12px;'>";
+
     $successCount = 0;
     $errorCount = 0;
-    
-    foreach ($statements as $statement) {
+
+    foreach ($statements as $index => $statement) {
         if (empty($statement) || strpos($statement, '--') === 0) {
             continue; // Skip empty statements and comments
         }
-        
+
+        echo "<div style='margin: 10px 0; padding: 10px; border-left: 3px solid #007bff; background: white;'>";
+        echo "<strong>Statement " . ($index + 1) . ":</strong><br>";
+        echo "<code>" . htmlspecialchars(substr($statement, 0, 100)) . (strlen($statement) > 100 ? '...' : '') . "</code><br>";
+
         try {
-            $db->query($statement);
-            
+            $result = $db->query($statement);
+
             // Extract table name for display
             if (preg_match('/CREATE TABLE.*?`(\w+)`/i', $statement, $matches)) {
-                echo "<p>✅ Created table: <strong>{$matches[1]}</strong></p>";
+                echo "<span style='color: green;'>✅ Created table: <strong>{$matches[1]}</strong></span>";
             } elseif (preg_match('/INSERT.*?INTO.*?`(\w+)`/i', $statement, $matches)) {
-                echo "<p>✅ Inserted data into: <strong>{$matches[1]}</strong></p>";
+                echo "<span style='color: green;'>✅ Inserted data into: <strong>{$matches[1]}</strong></span>";
             } elseif (preg_match('/ALTER TABLE.*?`(\w+)`/i', $statement, $matches)) {
-                echo "<p>✅ Added constraints to: <strong>{$matches[1]}</strong></p>";
+                echo "<span style='color: green;'>✅ Added constraints to: <strong>{$matches[1]}</strong></span>";
             } elseif (preg_match('/UPDATE.*?`(\w+)`/i', $statement, $matches)) {
-                echo "<p>✅ Updated data in: <strong>{$matches[1]}</strong></p>";
+                echo "<span style='color: green;'>✅ Updated data in: <strong>{$matches[1]}</strong></span>";
             } else {
-                echo "<p>✅ Executed SQL statement</p>";
+                echo "<span style='color: green;'>✅ Executed SQL statement</span>";
             }
-            
+
             $successCount++;
         } catch (Exception $e) {
-            echo "<p>⚠️ Warning: " . htmlspecialchars($e->getMessage()) . "</p>";
+            echo "<span style='color: red;'>❌ Error: " . htmlspecialchars($e->getMessage()) . "</span>";
             $errorCount++;
         }
+        echo "</div>";
     }
+
+    echo "</div>";
     
     echo "<h3>📊 Summary:</h3>";
     echo "<p>✅ <strong>$successCount</strong> statements executed successfully</p>";
