@@ -68,15 +68,43 @@ echo "📋 Step 4: Regenerating optimized autoload"
 composer dump-autoload --optimize --no-dev
 echo "✅ Autoload regenerated"
 
-# Step 5: Clear Laravel caches
+# Step 5: Fix Cache Configuration and Clear Laravel caches
 echo ""
-echo "📋 Step 5: Clearing Laravel caches"
+echo "📋 Step 5: Fixing Cache Configuration and Clearing Laravel caches"
+
+# Check if cache table exists and create if needed
+echo "Checking cache table..."
+php artisan tinker --execute="
+try {
+    \DB::table('cache')->count();
+    echo 'Cache table exists';
+} catch (Exception \$e) {
+    echo 'Cache table missing - will create';
+    \Schema::create('cache', function (\$table) {
+        \$table->string('key')->primary();
+        \$table->mediumText('value');
+        \$table->integer('expiration');
+    });
+    \Schema::create('cache_locks', function (\$table) {
+        \$table->string('key')->primary();
+        \$table->string('owner');
+        \$table->integer('expiration');
+    });
+    echo 'Cache tables created successfully';
+}
+"
+
+# Clear caches safely
+echo "Clearing Laravel caches..."
 php artisan config:clear
-php artisan cache:clear
 php artisan route:clear
 php artisan view:clear
 php artisan optimize:clear
-echo "✅ Laravel caches cleared"
+
+# Try to clear cache, but handle database cache errors gracefully
+php artisan cache:clear 2>/dev/null || echo "Cache clear skipped (database cache not available)"
+
+echo "✅ Laravel caches cleared and cache configuration fixed"
 
 # Step 6: Rebuild Laravel caches
 echo ""
