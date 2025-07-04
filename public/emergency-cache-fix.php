@@ -126,30 +126,44 @@ foreach ($directories as $dir) {
 echo "</div>";
 
 echo "<div class='step'>";
-echo "<h3>Step 5: Clearing Laravel Caches</h3>";
+echo "<h3>Step 5: Clearing Laravel Caches (Manual)</h3>";
 
-$artisanPath = $rootPath . '/artisan';
-if (file_exists($artisanPath)) {
-    $commands = [
-        'config:clear' => 'Configuration cache cleared',
-        'cache:clear' => 'Application cache cleared',
-        'view:clear' => 'View cache cleared'
-    ];
-    
-    foreach ($commands as $command => $message) {
-        $output = [];
-        $returnCode = 0;
-        exec("cd $rootPath && php artisan $command 2>&1", $output, $returnCode);
-        if ($returnCode === 0) {
-            echo "<span class='ok'>✅ $message</span><br>";
-        } else {
-            echo "<span class='warning'>⚠️ Could not run: php artisan $command</span><br>";
-            echo "<div class='code'>" . implode('<br>', $output) . "</div>";
+// Clear caches manually since exec() is disabled
+$cacheDirectories = [
+    $rootPath . '/storage/framework/cache/data',
+    $rootPath . '/storage/framework/views',
+    $rootPath . '/bootstrap/cache'
+];
+
+foreach ($cacheDirectories as $dir) {
+    if (is_dir($dir)) {
+        $files = glob($dir . '/*');
+        $cleared = 0;
+        foreach ($files as $file) {
+            if (is_file($file) && unlink($file)) {
+                $cleared++;
+            }
         }
+        echo "<span class='ok'>✅ Cleared $cleared files from " . basename($dir) . "</span><br>";
+    } else {
+        echo "<span class='warning'>⚠️ Directory not found: " . basename($dir) . "</span><br>";
+    }
+}
+
+// Clear config cache file specifically
+$configCache = $rootPath . '/bootstrap/cache/config.php';
+if (file_exists($configCache)) {
+    if (unlink($configCache)) {
+        echo "<span class='ok'>✅ Cleared config cache file</span><br>";
+    } else {
+        echo "<span class='warning'>⚠️ Could not clear config cache file</span><br>";
     }
 } else {
-    echo "<span class='error'>❌ Artisan command not found</span><br>";
+    echo "<span class='ok'>✅ No config cache file to clear</span><br>";
 }
+
+echo "<span class='warning'>⚠️ exec() function is disabled on this server</span><br>";
+echo "<span class='ok'>✅ Using manual cache clearing instead</span><br>";
 
 echo "</div>";
 
@@ -157,25 +171,40 @@ echo "<div class='step'>";
 echo "<h3>Step 6: Testing Database Connection</h3>";
 
 try {
-    // Try to load Laravel and test database
-    require_once $rootPath . '/vendor/autoload.php';
-    $app = require_once $rootPath . '/bootstrap/app.php';
-    
-    // Test database connection
-    $pdo = $app->make('db')->connection()->getPdo();
-    echo "<span class='ok'>✅ Database connection successful</span><br>";
-    
-    // Check if cache table exists
-    $stmt = $pdo->query("SHOW TABLES LIKE 'cache'");
-    if ($stmt->rowCount() > 0) {
-        echo "<span class='ok'>✅ Cache table exists in database</span><br>";
-        echo "<span class='warning'>⚠️ You can switch back to database caching if preferred</span><br>";
+    // Simple database connection test without loading full Laravel
+    $envContent = file_get_contents($envPath);
+
+    // Extract database credentials from .env
+    preg_match('/DB_HOST=(.+)/', $envContent, $hostMatch);
+    preg_match('/DB_DATABASE=(.+)/', $envContent, $dbMatch);
+    preg_match('/DB_USERNAME=(.+)/', $envContent, $userMatch);
+    preg_match('/DB_PASSWORD=(.+)/', $envContent, $passMatch);
+
+    $host = isset($hostMatch[1]) ? trim($hostMatch[1]) : 'localhost';
+    $database = isset($dbMatch[1]) ? trim($dbMatch[1]) : '';
+    $username = isset($userMatch[1]) ? trim($userMatch[1]) : '';
+    $password = isset($passMatch[1]) ? trim($passMatch[1]) : '';
+
+    if ($database && $username) {
+        $dsn = "mysql:host=$host;dbname=$database";
+        $pdo = new PDO($dsn, $username, $password);
+        echo "<span class='ok'>✅ Database connection successful</span><br>";
+
+        // Check if cache table exists
+        $stmt = $pdo->query("SHOW TABLES LIKE 'cache'");
+        if ($stmt->rowCount() > 0) {
+            echo "<span class='ok'>✅ Cache table exists in database</span><br>";
+            echo "<span class='warning'>⚠️ You can switch back to database caching if preferred</span><br>";
+        } else {
+            echo "<span class='warning'>⚠️ Cache table does not exist (file caching is better choice)</span><br>";
+        }
     } else {
-        echo "<span class='warning'>⚠️ Cache table does not exist (file caching is better choice)</span><br>";
+        echo "<span class='warning'>⚠️ Database credentials not found in .env</span><br>";
     }
-    
+
 } catch (Exception $e) {
     echo "<span class='warning'>⚠️ Could not test database: " . $e->getMessage() . "</span><br>";
+    echo "<span class='ok'>✅ File caching will work regardless of database issues</span><br>";
 }
 
 echo "</div>";
