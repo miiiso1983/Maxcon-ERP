@@ -21,10 +21,11 @@ class Database {
     }
     
     private function loadEnvConfig() {
-        $envPath = dirname(__DIR__) . '/.env';
+        // Go up two directories from public/custom-auth/ to reach Laravel root
+        $envPath = dirname(dirname(__DIR__)) . '/.env';
         
         if (!file_exists($envPath)) {
-            throw new Exception('.env file not found');
+            throw new Exception('.env file not found at: ' . $envPath);
         }
         
         $envContent = file_get_contents($envPath);

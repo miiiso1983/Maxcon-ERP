@@ -6,6 +6,14 @@ require_once 'Session.php';
 // Test database connection
 echo "<h2>🔍 Custom Auth System Test</h2>";
 
+// Debug path information
+echo "<h3>📁 Path Debug Info:</h3>";
+echo "<p><strong>Current directory:</strong> " . __DIR__ . "</p>";
+echo "<p><strong>Parent directory:</strong> " . dirname(__DIR__) . "</p>";
+echo "<p><strong>Laravel root:</strong> " . dirname(dirname(__DIR__)) . "</p>";
+echo "<p><strong>Expected .env path:</strong> " . dirname(dirname(__DIR__)) . '/.env' . "</p>";
+echo "<p><strong>.env file exists:</strong> " . (file_exists(dirname(dirname(__DIR__)) . '/.env') ? '✅ Yes' : '❌ No') . "</p>";
+
 try {
     $db = Database::getInstance();
     echo "<p>✅ Database connection successful</p>";
