@@ -102,15 +102,15 @@
         </div>
     </div>
 
+    @if(!config('app.debug'))
     <script>
         // Auto-refresh after 30 seconds if not in debug mode
-        @if(!config('app.debug'))
         setTimeout(function() {
             if (confirm('Would you like to try refreshing the page?')) {
                 window.location.reload();
             }
         }, 30000);
-        @endif
     </script>
+    @endif
 </body>
 </html>

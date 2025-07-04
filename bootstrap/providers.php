@@ -2,7 +2,8 @@
 
 return [
     App\Providers\AppServiceProvider::class,
-    // Temporarily disable problematic providers for debugging
-    // App\Providers\TenancyServiceProvider::class,
-    // App\Providers\BladeServiceProvider::class,
+    App\Providers\AuthServiceProvider::class,
+    App\Providers\EventServiceProvider::class,
+    App\Providers\RouteServiceProvider::class,
+    App\Providers\BladeServiceProvider::class,
 ];
