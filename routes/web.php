@@ -155,6 +155,45 @@ Route::prefix('reports')->name('reports.')->group(function () {
     Route::get('/suppliers', [\App\Modules\Reports\Controllers\ReportsController::class, 'suppliersReport'])->name('suppliers');
     Route::get('/analytics', [\App\Modules\Reports\Controllers\AnalyticsController::class, 'index'])->name('analytics');
 });
+
+// Medical Reps routes for central domain
+Route::prefix('medical-reps')->name('medical-reps.')->group(function () {
+    Route::get('/', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'dashboard'])->name('dashboard');
+
+    // Representatives Management
+    Route::prefix('reps')->name('reps.')->group(function () {
+        Route::get('/', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'reps'])->name('index');
+        Route::get('/create', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'createRep'])->name('create');
+        Route::post('/', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'storeRep'])->name('store');
+        Route::get('/{rep}', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'showRep'])->name('show');
+        Route::get('/{rep}/edit', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'editRep'])->name('edit');
+        Route::put('/{rep}', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'updateRep'])->name('update');
+    });
+
+    // Visit Management
+    Route::prefix('visits')->name('visits.')->group(function () {
+        Route::get('/', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'visits'])->name('index');
+        Route::get('/create', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'createVisit'])->name('create');
+        Route::post('/', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'storeVisit'])->name('store');
+        Route::post('/{visit}/check-in', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'checkInVisit'])->name('check-in');
+        Route::post('/{visit}/check-out', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'checkOutVisit'])->name('check-out');
+    });
+
+    // Territory Management
+    Route::prefix('territories')->name('territories.')->group(function () {
+        Route::get('/', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'territories'])->name('index');
+        Route::get('/{territory}', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'showTerritory'])->name('show');
+    });
+
+    // Performance & Analytics
+    Route::prefix('performance')->name('performance.')->group(function () {
+        Route::get('/', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'performance'])->name('index');
+        Route::get('/rep/{rep}', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'repPerformance'])->name('rep');
+    });
+
+    // Mobile App Interface
+    Route::get('/mobile', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'mobileApp'])->name('mobile');
+});
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
 Route::get('/test-medical-reps', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'dashboard'])->name('test.medical-reps');
