@@ -24,7 +24,7 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# Security Headers
+# Security Headers (only if mod_headers is available)
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options nosniff
     Header always set X-Frame-Options DENY
@@ -32,22 +32,15 @@
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
-# PHP Configuration for Shared Hosting
+# PHP Configuration (compatible with most hosting)
 <IfModule mod_php.c>
-    php_value memory_limit 512M
-    php_value max_execution_time 300
-    php_value max_input_vars 3000
-    php_value upload_max_filesize 64M
-    php_value post_max_size 64M
+    php_value memory_limit 256M
+    php_value max_execution_time 120
+    php_value max_input_vars 1000
+    php_value upload_max_filesize 32M
+    php_value post_max_size 32M
     php_flag display_errors Off
     php_flag log_errors On
-    php_value error_log /tmp/php_errors.log
-</IfModule>
-
-# Alternative PHP Configuration (if mod_php doesn't work)
-<IfModule mod_fcgid.c>
-    FcgidInitialEnv PHP_FCGI_MAX_REQUESTS 1000
-    FcgidMaxRequestLen 1073741824
 </IfModule>
 
 # Disable access to sensitive files
@@ -66,13 +59,18 @@
     Deny from all
 </Files>
 
-# Cache static files
+<Files "*.log">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Cache static files (optional)
 <IfModule mod_expires.c>
     ExpiresActive on
-    ExpiresByType text/css "access plus 1 year"
-    ExpiresByType application/javascript "access plus 1 year"
-    ExpiresByType image/png "access plus 1 year"
-    ExpiresByType image/jpg "access plus 1 year"
-    ExpiresByType image/jpeg "access plus 1 year"
-    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
 </IfModule>

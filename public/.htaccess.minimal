@@ -1,0 +1,12 @@
+# Minimal .htaccess for Laravel - Maximum Compatibility
+RewriteEngine On
+
+# Laravel routing
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [L]
+
+# Block sensitive files
+<Files ".env">
+    Require all denied
+</Files>

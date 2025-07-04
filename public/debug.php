@@ -155,13 +155,44 @@ foreach ($logFiles as $logFile) {
 }
 echo "</div>";
 
-// Step 7: Quick fixes
+// Step 7: Check .htaccess
+echo "<div class='info'>";
+echo "<h2>7. .htaccess Configuration</h2>";
+if (file_exists('.htaccess')) {
+    echo "✅ .htaccess file exists<br>";
+    $htaccess = file_get_contents('.htaccess');
+
+    // Check for problematic directives
+    $problems = [];
+    if (strpos($htaccess, 'FcgidInitialEnv') !== false) {
+        $problems[] = 'FcgidInitialEnv (causes server errors)';
+    }
+    if (strpos($htaccess, 'FcgidMaxRequestLen') !== false) {
+        $problems[] = 'FcgidMaxRequestLen (not allowed in .htaccess)';
+    }
+
+    if (count($problems) > 0) {
+        echo "<span class='error'>❌ .htaccess Problems Found:</span><br>";
+        foreach ($problems as $problem) {
+            echo "&nbsp;&nbsp;• $problem<br>";
+        }
+        echo "<br><strong>Solution:</strong> <a href='htaccess-fix.php'>Fix .htaccess automatically</a><br>";
+    } else {
+        echo "✅ .htaccess appears to be clean<br>";
+    }
+} else {
+    echo "❌ .htaccess file missing<br>";
+}
+echo "</div>";
+
+// Step 8: Quick fixes
 echo "<div class='warning'>";
-echo "<h2>7. Quick Fixes to Try</h2>";
+echo "<h2>8. Quick Fixes to Try</h2>";
 echo "<ol>";
+echo "<li><strong>Fix .htaccess:</strong> <a href='htaccess-fix.php'>Run .htaccess Fix Tool</a></li>";
 echo "<li><strong>Clear caches:</strong> Delete bootstrap/cache/* files</li>";
 echo "<li><strong>Fix permissions:</strong> chmod 775 storage bootstrap/cache</li>";
-echo "<li><strong>Check .htaccess:</strong> Rename .htaccess to .htaccess.bak temporarily</li>";
+echo "<li><strong>Test minimal .htaccess:</strong> Rename .htaccess to .htaccess.bak</li>";
 echo "<li><strong>Composer:</strong> Run 'composer install --no-dev'</li>";
 echo "<li><strong>Generate key:</strong> Run 'php artisan key:generate'</li>";
 echo "</ol>";
