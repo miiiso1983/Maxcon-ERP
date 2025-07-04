@@ -16,6 +16,7 @@ use App\Modules\Financial\Controllers\CollectionController;
 use App\Modules\Financial\Controllers\PaymentPlanController;
 use App\Modules\Financial\Controllers\AccountingController;
 use App\Modules\AI\Controllers\AIController;
+use App\Modules\HR\Controllers\HRController;
 use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
@@ -398,6 +399,42 @@ Route::prefix('ai')->name('ai.')->group(function () {
     Route::post('/predictions/{prediction}/accuracy', [AIController::class, 'updatePredictionAccuracy'])->name('update-accuracy');
     Route::get('/settings', [AIController::class, 'aiSettings'])->name('settings');
     Route::post('/settings', [AIController::class, 'updateSettings'])->name('update-settings');
+});
+
+// Human Resources routes for central domain
+Route::prefix('hr')->name('hr.')->group(function () {
+    Route::get('/', [HRController::class, 'dashboard'])->name('dashboard');
+
+    // Employee Management
+    Route::prefix('employees')->name('employees.')->group(function () {
+        Route::get('/', [HRController::class, 'employees'])->name('index');
+        Route::get('/create', [HRController::class, 'createEmployee'])->name('create');
+        Route::post('/', [HRController::class, 'storeEmployee'])->name('store');
+        Route::get('/{employee}', [HRController::class, 'showEmployee'])->name('show');
+        Route::get('/{employee}/edit', [HRController::class, 'editEmployee'])->name('edit');
+        Route::put('/{employee}', [HRController::class, 'updateEmployee'])->name('update');
+        Route::delete('/{employee}', [HRController::class, 'destroyEmployee'])->name('destroy');
+    });
+
+    // Attendance Management
+    Route::prefix('attendance')->name('attendance.')->group(function () {
+        Route::get('/', [HRController::class, 'attendance'])->name('index');
+        Route::post('/mark', [HRController::class, 'markAttendance'])->name('mark');
+        Route::get('/report', [HRController::class, 'attendanceReport'])->name('report');
+    });
+
+    // Leave Management
+    Route::prefix('leave')->name('leave.')->group(function () {
+        Route::get('/', [HRController::class, 'leaveRequests'])->name('index');
+        Route::get('/create', [HRController::class, 'createLeaveRequest'])->name('create');
+        Route::post('/', [HRController::class, 'storeLeaveRequest'])->name('store');
+        Route::post('/{leaveRequest}/approve', [HRController::class, 'approveLeaveRequest'])->name('approve');
+    });
+
+    // Department Management
+    Route::prefix('departments')->name('departments.')->group(function () {
+        Route::get('/', [HRController::class, 'departments'])->name('index');
+    });
 });
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
