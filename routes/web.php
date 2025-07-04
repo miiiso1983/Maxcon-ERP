@@ -11,6 +11,7 @@ use App\Modules\Sales\Controllers\SalesController;
 use App\Modules\Sales\Controllers\POSController;
 use App\Modules\Customer\Controllers\CustomerController;
 use App\Modules\Supplier\Controllers\SupplierController;
+use App\Http\Controllers\PublicTemplateController;
 use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
@@ -306,6 +307,14 @@ Route::prefix('suppliers')->name('suppliers.')->group(function () {
     Route::get('/export', [SupplierController::class, 'export'])->name('export');
     Route::get('/template', [SupplierController::class, 'downloadTemplate'])->name('template');
 });
+
+// Public template routes for central domain (no auth required)
+Route::get('/templates/suppliers', [PublicTemplateController::class, 'suppliersTemplate'])->name('templates.suppliers');
+Route::get('/templates/customers', [PublicTemplateController::class, 'customersTemplate'])->name('templates.customers');
+
+// Public export routes for central domain (no auth required for demo)
+Route::post('/export/suppliers', [PublicTemplateController::class, 'exportSuppliers'])->name('export.suppliers');
+Route::get('/export/suppliers-demo', [PublicTemplateController::class, 'exportSuppliers'])->name('export.suppliers.demo');
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
 Route::get('/test-medical-reps', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'dashboard'])->name('test.medical-reps');
