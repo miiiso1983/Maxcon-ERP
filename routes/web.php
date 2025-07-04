@@ -12,6 +12,9 @@ use App\Modules\Sales\Controllers\POSController;
 use App\Modules\Customer\Controllers\CustomerController;
 use App\Modules\Supplier\Controllers\SupplierController;
 use App\Http\Controllers\PublicTemplateController;
+use App\Modules\Financial\Controllers\CollectionController;
+use App\Modules\Financial\Controllers\PaymentPlanController;
+use App\Modules\Financial\Controllers\AccountingController;
 use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
@@ -315,6 +318,52 @@ Route::get('/templates/customers', [PublicTemplateController::class, 'customersT
 // Public export routes for central domain (no auth required for demo)
 Route::post('/export/suppliers', [PublicTemplateController::class, 'exportSuppliers'])->name('export.suppliers');
 Route::get('/export/suppliers-demo', [PublicTemplateController::class, 'exportSuppliers'])->name('export.suppliers.demo');
+
+// Financial routes for central domain
+Route::prefix('financial')->name('financial.')->group(function () {
+    Route::get('/', fn() => view('tenant.financial.index'))->name('index');
+
+    // Collections Routes
+    Route::prefix('collections')->name('collections.')->group(function () {
+        Route::get('/', [CollectionController::class, 'index'])->name('index');
+        Route::get('/dashboard', [CollectionController::class, 'dashboard'])->name('dashboard');
+        Route::get('/create', [CollectionController::class, 'create'])->name('create');
+        Route::post('/', [CollectionController::class, 'store'])->name('store');
+        Route::get('/{collection}', [CollectionController::class, 'show'])->name('show');
+        Route::get('/{collection}/edit', [CollectionController::class, 'edit'])->name('edit');
+        Route::put('/{collection}', [CollectionController::class, 'update'])->name('update');
+        Route::post('/{collection}/add-payment', [CollectionController::class, 'addPayment'])->name('add-payment');
+        Route::post('/{collection}/add-activity', [CollectionController::class, 'addActivity'])->name('add-activity');
+        Route::post('/{collection}/mark-contacted', [CollectionController::class, 'markAsContacted'])->name('mark-contacted');
+        Route::post('/{collection}/apply-discount', [CollectionController::class, 'applyDiscount'])->name('apply-discount');
+        Route::post('/{collection}/write-off', [CollectionController::class, 'writeOff'])->name('write-off');
+        Route::post('/bulk-action', [CollectionController::class, 'bulkAction'])->name('bulk-action');
+    });
+
+    // Payment Plans Routes
+    Route::prefix('payment-plans')->name('payment-plans.')->group(function () {
+        Route::get('/', [PaymentPlanController::class, 'index'])->name('index');
+        Route::get('/create', [PaymentPlanController::class, 'create'])->name('create');
+        Route::post('/', [PaymentPlanController::class, 'store'])->name('store');
+        Route::get('/{paymentPlan}', [PaymentPlanController::class, 'show'])->name('show');
+        Route::get('/{paymentPlan}/edit', [PaymentPlanController::class, 'edit'])->name('edit');
+        Route::put('/{paymentPlan}', [PaymentPlanController::class, 'update'])->name('update');
+        Route::delete('/{paymentPlan}', [PaymentPlanController::class, 'destroy'])->name('destroy');
+        Route::post('/{paymentPlan}/activate', [PaymentPlanController::class, 'activate'])->name('activate');
+        Route::post('/{paymentPlan}/suspend', [PaymentPlanController::class, 'suspend'])->name('suspend');
+    });
+
+    // Accounting Routes
+    Route::prefix('accounting')->name('accounting.')->group(function () {
+        Route::get('/', [AccountingController::class, 'dashboard'])->name('dashboard');
+        Route::get('/chart-of-accounts', [AccountingController::class, 'chartOfAccounts'])->name('chart-of-accounts');
+        Route::get('/trial-balance', [AccountingController::class, 'trialBalance'])->name('trial-balance');
+        Route::get('/balance-sheet', [AccountingController::class, 'balanceSheet'])->name('balance-sheet');
+        Route::get('/income-statement', [AccountingController::class, 'incomeStatement'])->name('income-statement');
+        Route::get('/general-ledger', [AccountingController::class, 'generalLedger'])->name('general-ledger');
+        Route::get('/journal-entries', [AccountingController::class, 'journalEntries'])->name('journal-entries');
+    });
+});
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
 Route::get('/test-medical-reps', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'dashboard'])->name('test.medical-reps');
