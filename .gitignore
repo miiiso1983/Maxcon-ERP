@@ -22,3 +22,9 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Database backups
+*.sql
+*.sql.gz
+maxcon_erp_backup_*
+maxcon_erp_chunk_*
