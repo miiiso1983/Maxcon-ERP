@@ -236,7 +236,7 @@ class AnalyticsController extends Controller
                 ];
             });
 
-        return $customers->groupBy('segment')->map->count()->toArray();
+        return (array) $customers->groupBy('segment')->map->count();
     }
 
     private function determineCustomerSegment(int $recency, int $frequency, float $monetary): string

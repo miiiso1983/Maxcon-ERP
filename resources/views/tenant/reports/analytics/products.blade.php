@@ -282,37 +282,35 @@
 </div>
 @endsection
 
+@php
+    $categoryLabels = isset($analytics['category_analysis']) ? collect($analytics['category_analysis'])->pluck('category_name') : [];
+    $categoryData = isset($analytics['category_analysis']) ? collect($analytics['category_analysis'])->pluck('total_revenue') : [];
+@endphp
+<script id="category-labels" type="application/json">{!! json_encode($categoryLabels) !!}</script>
+<script id="category-data" type="application/json">{!! json_encode($categoryData) !!}</script>
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 $(document).ready(function() {
+    const categoryLabels = JSON.parse(document.getElementById('category-labels').textContent);
+    const categoryData = JSON.parse(document.getElementById('category-data').textContent);
     // Category Analysis Chart
-    @if(isset($analytics['category_analysis']))
-    const categoryCtx = document.getElementById('categoryAnalysisChart').getContext('2d');
-    new Chart(categoryCtx, {
-        type: 'doughnut',
-        data: {
-            labels: {!! json_encode(collect($analytics['category_analysis'])->pluck('category_name')) !!},
-            datasets: [{
-                data: {!! json_encode(collect($analytics['category_analysis'])->pluck('total_revenue')) !!},
-                backgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    '#4BC0C0',
-                    '#9966FF',
-                    '#FF9F40',
-                    '#FF6384',
-                    '#C9CBCF'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-    @endif
+    if (categoryLabels.length > 0) {
+        const categoryCtx = document.getElementById('categoryAnalysisChart').getContext('2d');
+        new Chart(categoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: categoryLabels,
+                datasets: [{
+                    data: categoryData,
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF'
+                    ]
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
 });
 </script>
 @endpush

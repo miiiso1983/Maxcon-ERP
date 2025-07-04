@@ -258,7 +258,7 @@
                         <a href="{{ route('sales.qr-download', $sale) }}" class="btn btn-outline-info">
                             <i class="fas fa-download {{ marginEnd('2') }}"></i>{{ __('Download QR Code') }}
                         </a>
-                        <a href="{{ route('sales.edit', 1) }}" class="btn btn-outline-warning">
+                        <a href="{{ route('sales.edit', $sale) }}" class="btn btn-outline-warning">
                             <i class="fas fa-edit {{ marginEnd('2') }}"></i>{{ __('Edit Sale') }}
                         </a>
                         <button class="btn btn-outline-danger" onclick="refundSale()">
@@ -298,7 +298,7 @@
                     </div>
                     <hr>
                     <div class="d-grid">
-                        <a href="{{ route('customers.show', 1) }}" class="btn btn-outline-primary btn-sm">
+                        <a href="{{ route('customers.show', $sale->customer_id ?? 1) }}" class="btn btn-outline-primary btn-sm">
                             <i class="fas fa-eye {{ marginEnd('2') }}"></i>{{ __('View Customer') }}
                         </a>
                     </div>

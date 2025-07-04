@@ -275,7 +275,7 @@
                             @if($collection->collection_rate > 0 && $collection->collection_rate < 100)
                             <br>
                             <div class="progress mt-1" style="height: 4px;">
-                                <div class="progress-bar" role="progressbar" style="width: {{ number_format($collection->collection_rate ?? 0, 1) }}%"></div>
+                                <div class="progress-bar" role="progressbar" data-width="{{ number_format($collection->collection_rate ?? 0, 1) }}"></div>
                             </div>
                             @endif
                         </td>
@@ -444,6 +444,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     actionSelect.addEventListener('change', toggleActionFields);
+
+    document.querySelectorAll('.progress-bar[data-width]').forEach(function(bar) {
+        bar.style.width = bar.getAttribute('data-width') + '%';
+    });
 });
 
 function addPayment(collectionId) {

@@ -235,7 +235,7 @@
                         <div class="row mt-4">
                             <div class="col-12">
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route('sales.show', 1) }}" class="btn btn-outline-info {{ marginEnd('2') }}">
+                                    <a href="{{ route('sales.show', $sale) }}" class="btn btn-outline-info {{ marginEnd('2') }}">
                                         <i class="fas fa-eye {{ marginEnd('2') }}"></i>{{ __('View Sale') }}
                                     </a>
                                     <a href="{{ route('sales.index') }}" class="btn btn-outline-secondary {{ marginEnd('2') }}">

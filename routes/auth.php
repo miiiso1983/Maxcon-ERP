@@ -17,9 +17,8 @@ Route::middleware('guest')->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
-    // Commented out to avoid conflict with tenant login
-    // Route::get('login', [AuthenticatedSessionController::class, 'create'])
-    //     ->name('login');
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])
+        ->name('login');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store'])
         ->name('login.post');

@@ -423,6 +423,12 @@ class HRController extends Controller
     private function getPendingApprovals(): array
     {
         $currentUser = auth()->user();
+
+        // Check if user is authenticated
+        if (!$currentUser) {
+            return [];
+        }
+
         $employee = Employee::where('user_id', $currentUser->id)->first();
 
         if (!$employee) {

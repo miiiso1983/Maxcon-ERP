@@ -450,7 +450,7 @@ function viewStatement() {
 
 function viewOrder(orderId) {
     // Redirect to order details
-    window.location.href = '{{ route("sales.show", "") }}/' + orderId;
+    window.location.href = '{{ route("sales.index") }}/' + orderId;
 }
 
 function printInvoice(orderId) {

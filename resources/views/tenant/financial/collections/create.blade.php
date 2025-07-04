@@ -215,9 +215,10 @@
 @endsection
 
 @push('scripts')
+<script id="outstanding-sales-data" type="application/json">{!! json_encode($outstandingSales ?? []) !!}</script>
 <script>
-// Outstanding sales data (would come from backend)
-const outstandingSalesData = @json($outstandingSales ?? []);
+// Parse outstanding sales data from JSON script tag
+const outstandingSalesData = JSON.parse(document.getElementById('outstanding-sales-data').textContent);
 
 document.addEventListener('DOMContentLoaded', function() {
     const customerSelect = document.getElementById('customerSelect');
@@ -228,9 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     customerSelect.addEventListener('change', function() {
         const customerId = this.value;
-        
         if (customerId) {
-            // Show customer info
             customerInfoCard.style.display = 'block';
             const selectedOption = this.options[this.selectedIndex];
             customerInfo.innerHTML = `
@@ -239,13 +238,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p><strong>{{ __('Outstanding Amount') }}:</strong> $${Math.floor(Math.random() * 10000)}</p>
                 <p><strong>{{ __('Last Payment') }}:</strong> ${new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}</p>
             `;
-
-            // Show outstanding sales if any
             if (outstandingSalesData[customerId]) {
                 outstandingSalesSection.style.display = 'block';
                 populateOutstandingSales(outstandingSalesData[customerId]);
             } else {
-                // Generate sample data
                 outstandingSalesSection.style.display = 'block';
                 generateSampleSales();
             }

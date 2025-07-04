@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Central\DashboardController;
 use App\Http\Controllers\Central\TenantController;
 use App\Modules\Inventory\Controllers\InventoryController;
@@ -36,7 +37,7 @@ use App\Modules\Reports\Controllers\AnalyticsController;
 
 Route::get('/', function () {
     // If user is authenticated and is super admin, redirect to master admin dashboard
-    if (auth()->check() && auth()->user()->is_super_admin) {
+    if (Auth::check() && Auth::user() && Auth::user()->is_super_admin) {
         return redirect()->route('central.dashboard');
     }
 
@@ -62,7 +63,7 @@ Route::post('/login', function (\Illuminate\Http\Request $request) {
         // Find user and verify password manually to avoid session issues
         $user = \App\Models\User::where('email', $email)->first();
 
-        if ($user && \Illuminate\Support\Facades\Hash::check($password, $user->password)) {
+        if ($user && Hash::check($password, $user->getAttributes()['password'])) {
             // Manual login without Auth::attempt to avoid session issues
             Auth::login($user, $request->boolean('remember'));
 
@@ -88,7 +89,7 @@ Route::post('/login', function (\Illuminate\Http\Request $request) {
 // Dashboard route for authenticated users
 Route::get('/dashboard', function () {
     // If user is super admin, redirect to master admin dashboard
-    if (auth()->check() && auth()->user()->is_super_admin) {
+    if (Auth::check() && Auth::user() && Auth::user()->is_super_admin) {
         return redirect()->route('central.dashboard');
     }
 

@@ -219,100 +219,107 @@
 </div>
 @endsection
 
+@php
+    $salesTrendLabels = isset($analytics['sales_trend']) ? collect($analytics['sales_trend'])->pluck('date') : [];
+    $salesTrendData = isset($analytics['sales_trend']) ? collect($analytics['sales_trend'])->pluck('total_amount') : [];
+    $paymentMethodLabels = isset($analytics['payment_method_distribution']) ? collect($analytics['payment_method_distribution'])->pluck('payment_method') : [];
+    $paymentMethodData = isset($analytics['payment_method_distribution']) ? collect($analytics['payment_method_distribution'])->pluck('total_amount') : [];
+    $salesByHourLabels = isset($analytics['sales_by_hour']) ? collect($analytics['sales_by_hour'])->pluck('hour') : [];
+    $salesByHourData = isset($analytics['sales_by_hour']) ? collect($analytics['sales_by_hour'])->pluck('total_amount') : [];
+    $salesByDayLabels = isset($analytics['sales_by_day_of_week']) ? collect($analytics['sales_by_day_of_week'])->pluck('day') : [];
+    $salesByDayData = isset($analytics['sales_by_day_of_week']) ? collect($analytics['sales_by_day_of_week'])->pluck('total_amount') : [];
+@endphp
+<script id="sales-trend-labels" type="application/json">{!! json_encode($salesTrendLabels) !!}</script>
+<script id="sales-trend-data" type="application/json">{!! json_encode($salesTrendData) !!}</script>
+<script id="payment-method-labels" type="application/json">{!! json_encode($paymentMethodLabels) !!}</script>
+<script id="payment-method-data" type="application/json">{!! json_encode($paymentMethodData) !!}</script>
+<script id="sales-by-hour-labels" type="application/json">{!! json_encode($salesByHourLabels) !!}</script>
+<script id="sales-by-hour-data" type="application/json">{!! json_encode($salesByHourData) !!}</script>
+<script id="sales-by-day-labels" type="application/json">{!! json_encode($salesByDayLabels) !!}</script>
+<script id="sales-by-day-data" type="application/json">{!! json_encode($salesByDayData) !!}</script>
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 $(document).ready(function() {
+    const salesTrendLabels = JSON.parse(document.getElementById('sales-trend-labels').textContent);
+    const salesTrendData = JSON.parse(document.getElementById('sales-trend-data').textContent);
+    const paymentMethodLabels = JSON.parse(document.getElementById('payment-method-labels').textContent);
+    const paymentMethodData = JSON.parse(document.getElementById('payment-method-data').textContent);
+    const salesByHourLabels = JSON.parse(document.getElementById('sales-by-hour-labels').textContent);
+    const salesByHourData = JSON.parse(document.getElementById('sales-by-hour-data').textContent);
+    const salesByDayLabels = JSON.parse(document.getElementById('sales-by-day-labels').textContent);
+    const salesByDayData = JSON.parse(document.getElementById('sales-by-day-data').textContent);
     // Sales Trend Chart
-    @if(isset($analytics['sales_trend']))
-    const salesTrendCtx = document.getElementById('salesTrendChart').getContext('2d');
-    new Chart(salesTrendCtx, {
-        type: 'line',
-        data: {
-            labels: {!! json_encode(collect($analytics['sales_trend'])->pluck('date')) !!},
-            datasets: [{
-                label: '{{ __("Sales Amount") }}',
-                data: {!! json_encode(collect($analytics['sales_trend'])->pluck('total_amount')) !!},
-                borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-    @endif
-
+    if (salesTrendLabels.length > 0) {
+        const salesTrendCtx = document.getElementById('salesTrendChart').getContext('2d');
+        new Chart(salesTrendCtx, {
+            type: 'line',
+            data: {
+                labels: salesTrendLabels,
+                datasets: [{
+                    label: '{{ __("Sales Amount") }}',
+                    data: salesTrendData,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.1
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
     // Payment Method Chart
-    @if(isset($analytics['payment_method_distribution']))
-    const paymentMethodCtx = document.getElementById('paymentMethodChart').getContext('2d');
-    new Chart(paymentMethodCtx, {
-        type: 'doughnut',
-        data: {
-            labels: {!! json_encode(collect($analytics['payment_method_distribution'])->pluck('payment_method')) !!},
-            datasets: [{
-                data: {!! json_encode(collect($analytics['payment_method_distribution'])->pluck('total_amount')) !!},
-                backgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    '#4BC0C0',
-                    '#9966FF'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-    @endif
-
+    if (paymentMethodLabels.length > 0) {
+        const paymentMethodCtx = document.getElementById('paymentMethodChart').getContext('2d');
+        new Chart(paymentMethodCtx, {
+            type: 'doughnut',
+            data: {
+                labels: paymentMethodLabels,
+                datasets: [{
+                    data: paymentMethodData,
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'
+                    ]
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
     // Sales by Hour Chart
-    @if(isset($analytics['sales_by_hour']))
-    const salesByHourCtx = document.getElementById('salesByHourChart').getContext('2d');
-    new Chart(salesByHourCtx, {
-        type: 'bar',
-        data: {
-            labels: {!! json_encode(collect($analytics['sales_by_hour'])->pluck('hour')) !!},
-            datasets: [{
-                label: '{{ __("Sales Amount") }}',
-                data: {!! json_encode(collect($analytics['sales_by_hour'])->pluck('total_amount')) !!},
-                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-    @endif
-
+    if (salesByHourLabels.length > 0) {
+        const salesByHourCtx = document.getElementById('salesByHourChart').getContext('2d');
+        new Chart(salesByHourCtx, {
+            type: 'bar',
+            data: {
+                labels: salesByHourLabels,
+                datasets: [{
+                    label: '{{ __("Sales Amount") }}',
+                    data: salesByHourData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
     // Sales by Day Chart
-    @if(isset($analytics['sales_by_day_of_week']))
-    const salesByDayCtx = document.getElementById('salesByDayChart').getContext('2d');
-    new Chart(salesByDayCtx, {
-        type: 'bar',
-        data: {
-            labels: {!! json_encode(collect($analytics['sales_by_day_of_week'])->pluck('day_name')) !!},
-            datasets: [{
-                label: '{{ __("Sales Amount") }}',
-                data: {!! json_encode(collect($analytics['sales_by_day_of_week'])->pluck('total_amount')) !!},
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-    @endif
+    if (salesByDayLabels.length > 0) {
+        const salesByDayCtx = document.getElementById('salesByDayChart').getContext('2d');
+        new Chart(salesByDayCtx, {
+            type: 'bar',
+            data: {
+                labels: salesByDayLabels,
+                datasets: [{
+                    label: '{{ __("Sales Amount") }}',
+                    data: salesByDayData,
+                    backgroundColor: 'rgba(255, 206, 86, 0.5)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
 });
 </script>
 @endpush

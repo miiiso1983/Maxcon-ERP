@@ -80,7 +80,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 
     public function isLicenseValid(): bool
     {
-        return $this->license_expires_at && $this->license_expires_at->isFuture();
+        return $this->license_expires_at && $this->license_expires_at->gt(now());
     }
 
     public function hasFeature(string $feature): bool
@@ -184,7 +184,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     // API usage tracking
     public function canMakeApiCall(): bool
     {
-        if ($this->api_calls_reset_at && $this->api_calls_reset_at->isPast()) {
+        if ($this->api_calls_reset_at && $this->api_calls_reset_at->lt(now())) {
             $this->resetApiCalls();
         }
 
@@ -207,13 +207,14 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     // Status methods
     public function isExpired(): bool
     {
-        return $this->license_expires_at && $this->license_expires_at->isPast();
+        return $this->license_expires_at && $this->license_expires_at->lt(now());
     }
 
     public function isNearExpiry(int $days = 30): bool
     {
         return $this->license_expires_at &&
-               $this->license_expires_at->diffInDays(now()) <= $days;
+               now()->diffInDays($this->license_expires_at, false) <= $days &&
+               $this->license_expires_at->gt(now());
     }
 
     public function isBillingOverdue(): bool

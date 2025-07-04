@@ -168,7 +168,7 @@
                                 <td>{{ $execution->duration_text }}</td>
                                 <td>{{ number_format($execution->row_count) }}</td>
                                 <td>
-                                    <small>{{ $execution->started_at, 'short'->format('M d, Y') }}</small>
+                                    <small>{{ $execution->started_at->format('M d, Y') }}</small>
                                 </td>
                                 <td>
                                     @if($execution->status === 'completed')

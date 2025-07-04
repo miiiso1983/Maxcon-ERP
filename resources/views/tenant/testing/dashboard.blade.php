@@ -44,7 +44,7 @@
                         </div>
                         <div class="h5 mb-0 font-weight-bold">{{ $latestResults['summary']['code_coverage'] ?? 0 }}%</div>
                         <div class="progress mt-2" style="height: 6px;">
-                            <div class="progress-bar bg-info" style="width: {{ $latestResults['summary']['code_coverage'] ?? 0 }}%; /* 80% */"></div>
+                            <div class="progress-bar bg-info" data-width="{{ $latestResults['summary']['code_coverage'] ?? 0 }}"></div>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -232,7 +232,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <button class="btn btn-outline-primary btn-sm" onclick="runTests('{{ str_replace('_tests', '', $key) }}')">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="runTests('{{ $key }}')">
                                         <i class="fas fa-play"></i> {{ __('Run') }}
                                     </button>
                                 </td>
@@ -258,7 +258,7 @@
                         <span class="small font-weight-bold">{{ $qualityMetrics['code_coverage'] ?? 0 }}%</span>
                     </div>
                     <div class="progress" style="height: 8px;">
-                        <div class="progress-bar bg-info" style="width: {{ $qualityMetrics['code_coverage'] ?? 0 }}%; /* 80% */"></div>
+                        <div class="progress-bar bg-info" data-width="{{ $qualityMetrics['code_coverage'] ?? 0 }}"></div>
                     </div>
                 </div>
 
@@ -268,7 +268,7 @@
                         <span class="small font-weight-bold">{{ $qualityMetrics['quality_score'] ?? 0 }}/100</span>
                     </div>
                     <div class="progress" style="height: 8px;">
-                        <div class="progress-bar bg-warning" style="width: {{ $qualityMetrics['quality_score'] ?? 0 }}%; /* 80% */"></div>
+                        <div class="progress-bar bg-warning" data-width="{{ $qualityMetrics['quality_score'] ?? 0 }}"></div>
                     </div>
                 </div>
 
@@ -278,7 +278,7 @@
                         <span class="small font-weight-bold">{{ $qualityMetrics['security_score'] ?? 0 }}/100</span>
                     </div>
                     <div class="progress" style="height: 8px;">
-                        <div class="progress-bar bg-success" style="width: {{ $qualityMetrics['security_score'] ?? 0 }}%; /* 80% */"></div>
+                        <div class="progress-bar bg-success" data-width="{{ $qualityMetrics['security_score'] ?? 0 }}"></div>
                     </div>
                 </div>
 
@@ -288,7 +288,7 @@
                         <span class="small font-weight-bold">{{ $qualityMetrics['performance_score'] ?? 0 }}/100</span>
                     </div>
                     <div class="progress" style="height: 8px;">
-                        <div class="progress-bar bg-primary" style="width: {{ $qualityMetrics['performance_score'] ?? 0 }}%; /* 80% */"></div>
+                        <div class="progress-bar bg-primary" data-width="{{ $qualityMetrics['performance_score'] ?? 0 }}"></div>
                     </div>
                 </div>
 
@@ -417,18 +417,18 @@ const trendsCtx = document.getElementById('coverageTrendsChart').getContext('2d'
 const trendsChart = new Chart(trendsCtx, {
     type: 'line',
     data: {
-        labels: @json(array_column($coverageTrends ?? [], 'date')),
+        labels: {!! json_encode(array_column($coverageTrends ?? [], 'date')) !!},
         datasets: [
             {
                 label: '{{ __("Coverage %") }}',
-                data: @json(array_column($coverageTrends ?? [], 'coverage')),
+                data: {!! json_encode(array_column($coverageTrends ?? [], 'coverage')) !!},
                 borderColor: 'rgb(54, 162, 235)',
                 backgroundColor: 'rgba(54, 162, 235, 0.1)',
                 tension: 0.1
             },
             {
                 label: '{{ __("Quality Score") }}',
-                data: @json(array_column($coverageTrends ?? [], 'quality_score')),
+                data: {!! json_encode(array_column($coverageTrends ?? [], 'quality_score')) !!},
                 borderColor: 'rgb(255, 193, 7)',
                 backgroundColor: 'rgba(255, 193, 7, 0.1)',
                 tension: 0.1
@@ -599,5 +599,13 @@ setInterval(function() {
         })
         .catch(error => console.error('Error updating test results:', error));
 }, 300000);
+
+// Set dynamic styles from data attributes
+document.addEventListener('DOMContentLoaded', function() {
+    // Apply dynamic widths
+    document.querySelectorAll('[data-width]').forEach(function(el) {
+        el.style.width = el.getAttribute('data-width') + '%';
+    });
+});
 </script>
 @endpush

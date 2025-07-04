@@ -221,79 +221,84 @@
 </div>
 @endsection
 
+@php
+    $customerSegmentationLabels = isset($analytics['customer_segmentation']) ? array_keys($analytics['customer_segmentation']) : [];
+    $customerSegmentationData = isset($analytics['customer_segmentation']) ? array_values($analytics['customer_segmentation']) : [];
+    $customerAcquisitionLabels = isset($analytics['customer_acquisition']) ? collect($analytics['customer_acquisition'])->pluck('date') : [];
+    $customerAcquisitionData = isset($analytics['customer_acquisition']) ? collect($analytics['customer_acquisition'])->pluck('new_customers') : [];
+    $purchaseFrequencyLabels = isset($analytics['purchase_frequency']) ? array_keys($analytics['purchase_frequency']) : [];
+    $purchaseFrequencyData = isset($analytics['purchase_frequency']) ? array_values($analytics['purchase_frequency']) : [];
+@endphp
+<script id="customer-segmentation-labels" type="application/json">{!! json_encode($customerSegmentationLabels) !!}</script>
+<script id="customer-segmentation-data" type="application/json">{!! json_encode($customerSegmentationData) !!}</script>
+<script id="customer-acquisition-labels" type="application/json">{!! json_encode($customerAcquisitionLabels) !!}</script>
+<script id="customer-acquisition-data" type="application/json">{!! json_encode($customerAcquisitionData) !!}</script>
+<script id="purchase-frequency-labels" type="application/json">{!! json_encode($purchaseFrequencyLabels) !!}</script>
+<script id="purchase-frequency-data" type="application/json">{!! json_encode($purchaseFrequencyData) !!}</script>
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 $(document).ready(function() {
+    const customerSegmentationLabels = JSON.parse(document.getElementById('customer-segmentation-labels').textContent);
+    const customerSegmentationData = JSON.parse(document.getElementById('customer-segmentation-data').textContent);
+    const customerAcquisitionLabels = JSON.parse(document.getElementById('customer-acquisition-labels').textContent);
+    const customerAcquisitionData = JSON.parse(document.getElementById('customer-acquisition-data').textContent);
+    const purchaseFrequencyLabels = JSON.parse(document.getElementById('purchase-frequency-labels').textContent);
+    const purchaseFrequencyData = JSON.parse(document.getElementById('purchase-frequency-data').textContent);
+
     // Customer Segmentation Chart
-    @if(isset($analytics['customer_segmentation']))
-    const segmentationCtx = document.getElementById('customerSegmentationChart').getContext('2d');
-    new Chart(segmentationCtx, {
-        type: 'doughnut',
-        data: {
-            labels: {!! json_encode(array_keys($analytics['customer_segmentation'])) !!},
-            datasets: [{
-                data: {!! json_encode(array_values($analytics['customer_segmentation'])) !!},
-                backgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    '#4BC0C0',
-                    '#9966FF',
-                    '#FF9F40'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-    @endif
-
+    if (customerSegmentationLabels.length > 0) {
+        const segmentationCtx = document.getElementById('customerSegmentationChart').getContext('2d');
+        new Chart(segmentationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: customerSegmentationLabels,
+                datasets: [{
+                    data: customerSegmentationData,
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+                    ]
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
     // Customer Acquisition Chart
-    @if(isset($analytics['customer_acquisition']))
-    const acquisitionCtx = document.getElementById('customerAcquisitionChart').getContext('2d');
-    new Chart(acquisitionCtx, {
-        type: 'line',
-        data: {
-            labels: {!! json_encode(collect($analytics['customer_acquisition'])->pluck('date')) !!},
-            datasets: [{
-                label: '{{ __("New Customers") }}',
-                data: {!! json_encode(collect($analytics['customer_acquisition'])->pluck('new_customers')) !!},
-                borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-    @endif
-
+    if (customerAcquisitionLabels.length > 0) {
+        const acquisitionCtx = document.getElementById('customerAcquisitionChart').getContext('2d');
+        new Chart(acquisitionCtx, {
+            type: 'line',
+            data: {
+                labels: customerAcquisitionLabels,
+                datasets: [{
+                    label: '{{ __("New Customers") }}',
+                    data: customerAcquisitionData,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.1
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
     // Purchase Frequency Chart
-    @if(isset($analytics['purchase_frequency']))
-    const frequencyCtx = document.getElementById('purchaseFrequencyChart').getContext('2d');
-    new Chart(frequencyCtx, {
-        type: 'bar',
-        data: {
-            labels: {!! json_encode(array_keys($analytics['purchase_frequency'])) !!},
-            datasets: [{
-                label: '{{ __("Number of Customers") }}',
-                data: {!! json_encode(array_values($analytics['purchase_frequency'])) !!},
-                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-    @endif
+    if (purchaseFrequencyLabels.length > 0) {
+        const frequencyCtx = document.getElementById('purchaseFrequencyChart').getContext('2d');
+        new Chart(frequencyCtx, {
+            type: 'bar',
+            data: {
+                labels: purchaseFrequencyLabels,
+                datasets: [{
+                    label: '{{ __("Number of Customers") }}',
+                    data: purchaseFrequencyData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
 });
 </script>
 @endpush

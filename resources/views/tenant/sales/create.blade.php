@@ -312,32 +312,23 @@ const availableProducts = [
 
 // Try to get products from server data, fallback to static data
 let products = [];
-try {
-    const serverData = @json($products->map(function($product) {
-        return [
-            'id' => $product->id,
-            'name' => $product->name,
-            'sku' => $product->sku,
-            'price' => (float) $product->selling_price,
-            'stock' => $product->stocks ? $product->stocks->sum('available_quantity') : rand(10, 100)
-        ];
-    }));
-
-    if (serverData && serverData.length > 0) {
-        products = serverData;
-        console.log('Using server products:', products.length);
-    } else {
-        products = availableProducts;
-        console.log('Using fallback products:', products.length);
+let serverData = [];
+const serverDataScript = document.getElementById('server-products-data');
+if (serverDataScript) {
+    try {
+        serverData = JSON.parse(serverDataScript.textContent);
+    } catch (e) {
+        console.error('Failed to parse server products data:', e);
+        serverData = [];
     }
-} catch (error) {
-    console.error('Error loading server products, using fallback:', error);
-    products = availableProducts;
 }
-
-
-
-
+if (serverData && serverData.length > 0) {
+    products = serverData;
+    console.log('Using server products:', products.length);
+} else {
+    products = availableProducts;
+    console.log('Using fallback products:', products.length);
+}
 
 // Simple and guaranteed working addSaleItem function
 function addSaleItem() {
@@ -415,6 +406,17 @@ function addSaleItem() {
 
     // Add to table
     tbody.appendChild(newRow);
+
+    // Initialize Select2 for the new product dropdown
+    const newSelect = newRow.querySelector('select[name*="[product_id]"]');
+    if (newSelect && typeof $ !== 'undefined') {
+        $(newSelect).select2({
+            placeholder: '{{ __("Select Product") }}',
+            allowClear: true,
+            width: '100%',
+            theme: 'bootstrap-5'
+        });
+    }
 
     // Update status
     const statusDisplay = document.getElementById('item-status');
@@ -597,8 +599,60 @@ document.addEventListener('DOMContentLoaded', function() {
         addSaleItem();
     }, 1000);
 
+    // Initialize Select2 for all dropdowns
+    initializePageSelect2();
+
     console.log('=== INITIALIZATION COMPLETE ===');
 });
+
+// Initialize Select2 for this page (will use global function from layout)
+function initializePageSelect2() {
+    // Use the global initializeSelect2 function from layout
+    if (typeof window.initializeSelect2 === 'function') {
+        window.initializeSelect2();
+    }
+
+    // Additional specific initialization for product dropdowns
+    initializeProductDropdowns();
+}
+
+// Initialize product dropdowns for existing and new rows
+function initializeProductDropdowns() {
+    $('select[name*="[product_id]"]').each(function() {
+        if (!$(this).hasClass('select2-hidden-accessible')) {
+            $(this).select2({
+                placeholder: '{{ __("Select Product") }}',
+                allowClear: true,
+                width: '100%',
+                theme: 'bootstrap-5',
+                templateResult: function(option) {
+                    if (!option.id) return option.text;
+
+                    // Extract stock info from option text
+                    var text = option.text;
+                    if (text.includes('Stock:')) {
+                        var parts = text.split(' - Stock: ');
+                        var productInfo = parts[0];
+                        var stock = parts[1];
+
+                        return $('<span><strong>' + productInfo + '</strong><br><small class="text-muted">Stock: ' + stock + '</small></span>');
+                    }
+                    return option.text;
+                },
+                templateSelection: function(option) {
+                    if (!option.id) return option.text;
+
+                    // Show only product name in selection
+                    var text = option.text;
+                    if (text.includes(' (') && text.includes(') - Stock:')) {
+                        return text.split(' (')[0];
+                    }
+                    return option.text;
+                }
+            });
+        }
+    });
+}
 
 // Make functions available globally (for onclick handlers)
 window.addSaleItem = addSaleItem;
@@ -610,5 +664,16 @@ window.addNewCustomer = addNewCustomer;
 window.saveCustomer = saveCustomer;
 
 console.log('=== SCRIPT LOADED ===');
+</script>
+<script type="application/json" id="server-products-data">
+{!! json_encode($products->map(function($product) {
+    return [
+        'id' => $product->id,
+        'name' => $product->name,
+        'sku' => $product->sku,
+        'price' => (float) $product->selling_price,
+        'stock' => $product->stocks ? $product->stocks->sum('available_quantity') : rand(10, 100)
+    ];
+})) !!}
 </script>
 @endpush

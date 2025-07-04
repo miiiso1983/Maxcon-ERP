@@ -312,62 +312,59 @@
 </div>
 @endsection
 
+@php
+    $profitLabels = isset($analytics['profit_by_product']) ? collect($analytics['profit_by_product'])->take(8)->pluck('product_name') : [];
+    $profitData = isset($analytics['profit_by_product']) ? collect($analytics['profit_by_product'])->take(8)->pluck('total_profit') : [];
+    $costLabels = isset($analytics['cost_analysis']) ? collect($analytics['cost_analysis'])->pluck('cost_type') : [];
+    $costData = isset($analytics['cost_analysis']) ? collect($analytics['cost_analysis'])->pluck('total_cost') : [];
+@endphp
+<script id="profit-labels" type="application/json">{!! json_encode($profitLabels) !!}</script>
+<script id="profit-data" type="application/json">{!! json_encode($profitData) !!}</script>
+<script id="cost-labels" type="application/json">{!! json_encode($costLabels) !!}</script>
+<script id="cost-data" type="application/json">{!! json_encode($costData) !!}</script>
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 $(document).ready(function() {
+    const profitLabels = JSON.parse(document.getElementById('profit-labels').textContent);
+    const profitData = JSON.parse(document.getElementById('profit-data').textContent);
+    const costLabels = JSON.parse(document.getElementById('cost-labels').textContent);
+    const costData = JSON.parse(document.getElementById('cost-data').textContent);
     // Profit Distribution Chart
-    @if(isset($analytics['profit_by_product']))
-    const profitCtx = document.getElementById('profitDistributionChart').getContext('2d');
-    new Chart(profitCtx, {
-        type: 'doughnut',
-        data: {
-            labels: {!! json_encode(collect($analytics['profit_by_product'])->take(8)->pluck('product_name')) !!},
-            datasets: [{
-                data: {!! json_encode(collect($analytics['profit_by_product'])->take(8)->pluck('total_profit')) !!},
-                backgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    '#4BC0C0',
-                    '#9966FF',
-                    '#FF9F40',
-                    '#FF6384',
-                    '#C9CBCF'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-    @endif
-
+    if (profitLabels.length > 0) {
+        const profitCtx = document.getElementById('profitDistributionChart').getContext('2d');
+        new Chart(profitCtx, {
+            type: 'doughnut',
+            data: {
+                labels: profitLabels,
+                datasets: [{
+                    data: profitData,
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF'
+                    ]
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
     // Cost Analysis Chart
-    @if(isset($analytics['cost_analysis']))
-    const costCtx = document.getElementById('costAnalysisChart').getContext('2d');
-    new Chart(costCtx, {
-        type: 'pie',
-        data: {
-            labels: {!! json_encode(array_keys($analytics['cost_analysis'])) !!},
-            datasets: [{
-                data: {!! json_encode(array_values($analytics['cost_analysis'])) !!},
-                backgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    '#4BC0C0',
-                    '#9966FF'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-    @endif
+    if (costLabels.length > 0) {
+        const costCtx = document.getElementById('costAnalysisChart').getContext('2d');
+        new Chart(costCtx, {
+            type: 'bar',
+            data: {
+                labels: costLabels,
+                datasets: [{
+                    label: '{{ __("Total Cost") }}',
+                    data: costData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
 });
 </script>
 @endpush

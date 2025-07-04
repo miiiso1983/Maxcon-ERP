@@ -115,7 +115,7 @@ class Product extends Model
 
     public function purchaseOrderItems()
     {
-        return $this->hasMany(\App\Modules\Purchase\Models\PurchaseOrderItem::class);
+        return $this->hasMany(\App\Modules\Supplier\Models\PurchaseOrderItem::class);
     }
 
     // Scopes
