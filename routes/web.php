@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Central\DashboardController;
 use App\Http\Controllers\Central\TenantController;
 use App\Modules\Inventory\Controllers\InventoryController;
+use App\Modules\Inventory\Controllers\ProductController;
 use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
@@ -193,6 +194,39 @@ Route::prefix('medical-reps')->name('medical-reps.')->group(function () {
 
     // Mobile App Interface
     Route::get('/mobile', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'mobileApp'])->name('mobile');
+});
+
+// Inventory routes for central domain
+Route::prefix('inventory')->name('inventory.')->group(function () {
+    Route::get('/', [\App\Modules\Inventory\Controllers\InventoryController::class, 'index'])->name('index');
+    Route::get('/low-stock', [\App\Modules\Inventory\Controllers\InventoryController::class, 'lowStock'])->name('low-stock');
+    Route::get('/expiring', [\App\Modules\Inventory\Controllers\InventoryController::class, 'expiring'])->name('expiring');
+    Route::get('/movements', [\App\Modules\Inventory\Controllers\InventoryController::class, 'stockMovements'])->name('movements');
+    Route::post('/products/{product}/adjust-stock', [\App\Modules\Inventory\Controllers\InventoryController::class, 'adjustStock'])->name('products.adjust-stock');
+
+    // Product Management
+    Route::prefix('products')->name('products.')->group(function () {
+        Route::get('/', [\App\Modules\Inventory\Controllers\ProductController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Modules\Inventory\Controllers\ProductController::class, 'create'])->name('create');
+        Route::post('/', [\App\Modules\Inventory\Controllers\ProductController::class, 'store'])->name('store');
+        Route::get('/{product}', [\App\Modules\Inventory\Controllers\ProductController::class, 'show'])->name('show');
+        Route::get('/{product}/edit', [\App\Modules\Inventory\Controllers\ProductController::class, 'edit'])->name('edit');
+        Route::put('/{product}', [\App\Modules\Inventory\Controllers\ProductController::class, 'update'])->name('update');
+        Route::delete('/{product}', [\App\Modules\Inventory\Controllers\ProductController::class, 'destroy'])->name('destroy');
+        Route::post('/import', [\App\Modules\Inventory\Controllers\ProductController::class, 'import'])->name('import');
+        Route::get('/export', [\App\Modules\Inventory\Controllers\ProductController::class, 'export'])->name('export');
+        Route::post('/bulk-action', [\App\Modules\Inventory\Controllers\ProductController::class, 'bulkAction'])->name('bulk-action');
+    });
+
+    // Categories
+    Route::prefix('categories')->name('categories.')->group(function () {
+        Route::get('/', fn() => view('tenant.inventory.categories.index'))->name('index');
+    });
+
+    // Warehouses
+    Route::prefix('warehouses')->name('warehouses.')->group(function () {
+        Route::get('/', fn() => view('tenant.inventory.warehouses.index'))->name('index');
+    });
 });
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
