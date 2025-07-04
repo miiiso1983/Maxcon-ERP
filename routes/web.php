@@ -7,6 +7,8 @@ use App\Http\Controllers\Central\DashboardController;
 use App\Http\Controllers\Central\TenantController;
 use App\Modules\Inventory\Controllers\InventoryController;
 use App\Modules\Inventory\Controllers\ProductController;
+use App\Modules\Sales\Controllers\SalesController;
+use App\Modules\Sales\Controllers\POSController;
 use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
@@ -228,6 +230,38 @@ Route::prefix('inventory')->name('inventory.')->group(function () {
         Route::get('/', fn() => view('tenant.inventory.warehouses.index'))->name('index');
     });
 });
+
+// Sales routes for central domain
+Route::prefix('sales')->name('sales.')->group(function () {
+    Route::get('/', [SalesController::class, 'index'])->name('index');
+    Route::get('/create', [SalesController::class, 'create'])->name('create');
+    Route::post('/', [SalesController::class, 'store'])->name('store');
+    Route::get('/{sale}', [SalesController::class, 'show'])->name('show');
+    Route::get('/{sale}/edit', [SalesController::class, 'edit'])->name('edit');
+    Route::put('/{sale}', [SalesController::class, 'update'])->name('update');
+    Route::delete('/{sale}', [SalesController::class, 'destroy'])->name('destroy');
+    Route::post('/{sale}/add-payment', [SalesController::class, 'addPayment'])->name('add-payment');
+    Route::get('/{sale}/print', [SalesController::class, 'printInvoice'])->name('print');
+    Route::get('/{sale}/qr-verify', [SalesController::class, 'qrVerification'])->name('qr-verify');
+    Route::get('/{sale}/qr-download', [SalesController::class, 'downloadQRCode'])->name('qr-download');
+    Route::post('/qr-decode', [SalesController::class, 'decodeQRData'])->name('qr-decode');
+    Route::get('/qr-test', function() { return view('tenant.sales.qr-test'); })->name('qr-test');
+
+    // POS Routes
+    Route::prefix('pos')->name('pos.')->group(function () {
+        Route::get('/', [POSController::class, 'index'])->name('index');
+        Route::post('/search-products', [POSController::class, 'searchProducts'])->name('search-products');
+        Route::get('/barcode/{barcode}', [POSController::class, 'getProductByBarcode'])->name('barcode');
+        Route::post('/process', [POSController::class, 'processSale'])->name('process');
+        Route::post('/quick-customer', [POSController::class, 'quickCustomer'])->name('quick-customer');
+        Route::post('/hold', [POSController::class, 'holdSale'])->name('hold');
+        Route::get('/held-sales', [POSController::class, 'getHeldSales'])->name('held-sales');
+        Route::get('/retrieve/{sale}', [POSController::class, 'retrieveHeldSale'])->name('retrieve');
+    });
+});
+
+// Shortcut for POS
+Route::get('/pos', [POSController::class, 'index'])->name('sales.pos');
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
 Route::get('/test-medical-reps', [\App\Modules\MedicalReps\Controllers\MedicalRepsController::class, 'dashboard'])->name('test.medical-reps');
