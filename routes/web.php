@@ -17,6 +17,7 @@ use App\Modules\Financial\Controllers\PaymentPlanController;
 use App\Modules\Financial\Controllers\AccountingController;
 use App\Modules\AI\Controllers\AIController;
 use App\Modules\HR\Controllers\HRController;
+use App\Modules\Compliance\Controllers\ComplianceController;
 use App\Modules\Reports\Controllers\AnalyticsController;
 
 /*
@@ -435,6 +436,43 @@ Route::prefix('hr')->name('hr.')->group(function () {
     Route::prefix('departments')->name('departments.')->group(function () {
         Route::get('/', [HRController::class, 'departments'])->name('index');
     });
+});
+
+// Regulatory Compliance routes for central domain
+Route::prefix('compliance')->name('compliance.')->group(function () {
+    Route::get('/', [ComplianceController::class, 'dashboard'])->name('dashboard');
+
+    // Compliance Items Management
+    Route::prefix('items')->name('items.')->group(function () {
+        Route::get('/', [ComplianceController::class, 'items'])->name('index');
+        Route::get('/create', [ComplianceController::class, 'createItem'])->name('create');
+        Route::post('/', [ComplianceController::class, 'storeItem'])->name('store');
+        Route::get('/{item}', [ComplianceController::class, 'showItem'])->name('show');
+        Route::get('/{item}/edit', [ComplianceController::class, 'editItem'])->name('edit');
+        Route::put('/{item}', [ComplianceController::class, 'updateItem'])->name('update');
+        Route::post('/{item}/renew', [ComplianceController::class, 'renewItem'])->name('renew');
+    });
+
+    // Inspection Management
+    Route::prefix('inspections')->name('inspections.')->group(function () {
+        Route::get('/', [ComplianceController::class, 'inspections'])->name('index');
+        Route::get('/create', [ComplianceController::class, 'createInspection'])->name('create');
+        Route::post('/', [ComplianceController::class, 'storeInspection'])->name('store');
+        Route::get('/{inspection}', [ComplianceController::class, 'showInspection'])->name('show');
+        Route::post('/{inspection}/complete', [ComplianceController::class, 'completeInspection'])->name('complete');
+    });
+
+    // Violation Management
+    Route::prefix('violations')->name('violations.')->group(function () {
+        Route::get('/', [ComplianceController::class, 'violations'])->name('index');
+        Route::get('/create', [ComplianceController::class, 'createViolation'])->name('create');
+        Route::post('/', [ComplianceController::class, 'storeViolation'])->name('store');
+        Route::get('/{violation}', [ComplianceController::class, 'showViolation'])->name('show');
+        Route::post('/{violation}/resolve', [ComplianceController::class, 'resolveViolation'])->name('resolve');
+    });
+
+    // Compliance Reports
+    Route::get('/reports', [ComplianceController::class, 'reports'])->name('reports');
 });
 Route::get('/test-ai', [\App\Modules\AI\Controllers\AIController::class, 'dashboard'])->name('test.ai');
 Route::get('/test-hr', [\App\Modules\HR\Controllers\HRController::class, 'dashboard'])->name('test.hr');
